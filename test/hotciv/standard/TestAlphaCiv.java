@@ -44,7 +44,7 @@ public class TestAlphaCiv {
 
   @Test
   public void erSorenHomo() {
-      assertThat("No homo is said twice", a, is("peter"));
+      assertThat("Selvfoelgelig ikke!", a, is("peter"));
   }
 
   @Test
