@@ -1,5 +1,7 @@
 package hotciv.framework;
 
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
+
 /** Game is the central interface allowing a client to access and
  * modify the state of a HotCiv game.  
 

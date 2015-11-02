@@ -1,0 +1,14 @@
+Testsuite: hotciv.standard.TestAlphaCiv
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0,029 sec
+
+Testcase: shouldHaveRedCityAt1_1 took 0,007 sec
+	FAILED
+There should be a city at (1,1)
+Expected: is not null
+     but: was null
+junit.framework.AssertionFailedError: There should be a city at (1,1)
+Expected: is not null
+     but: was null
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at hotciv.standard.TestAlphaCiv.shouldHaveRedCityAt1_1(TestAlphaCiv.java:49)
+
