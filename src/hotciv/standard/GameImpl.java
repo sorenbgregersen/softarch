@@ -37,8 +37,8 @@ public class GameImpl implements Game{
   public Unit getUnitAt( Position p ) { return null; }
   public City getCityAt( Position p ) { return city1; }
   public Player getPlayerInTurn() { return null; }
-  public Player getWinner() { return null; }
-  public int getAge() { return 0; }
+  public Player getWinner() { return Player.RED; }
+  public int getAge() { return 3000; }
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }

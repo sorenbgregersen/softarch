@@ -63,5 +63,18 @@ public class TestAlphaCiv {
         String tiletype = t.getTypeString();
         assertThat("There should ocean at (1,0)", tiletype, is("ocean"));
     }
+
+    @Test
+    public void redWinsinYear3000BC() {
+        assertThat("year is 3000BC", game.getAge(), is(3000));
+        assertThat("red wins", game.getWinner(), is(Player.RED));
+    }
+
+    @Test
+    public void populationIsAlways1() {
+        City c = game.getCityAt(new Position(1, 1));
+        assertThat("cities population is always 1", c.getSize(), is(1));
+    }
+
 }
 

@@ -20,7 +20,7 @@ public class CityImpl implements City {
 
     @Override
     public int getSize () {
-        return 0;
+        return 1;
     }
 
     @Override
