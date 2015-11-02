@@ -43,6 +43,11 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void erSorenHomo() {
+      assertThat("No homo is said twice", a, is("peter"));
+  }
+
+  @Test
   public void shouldHaveRedCityAt1_1() {
     City c = game.getCityAt(new Position(1,1));
     assertThat("There should be a city at (1,1)",
