@@ -76,5 +76,17 @@ public class TestAlphaCiv {
         assertThat("cities population is always 1", c.getSize(), is(1));
     }
 
+    @Test
+    public void afterRedItIsBlue() {
+        assertThat("Red has turn 1", game.getPlayerInTurn(), is(Player.RED));
+        game.endOfTurn();
+        assertThat("It is blue after red", game.getPlayerInTurn(), is(Player.BLUE));
+        game.endOfTurn();
+        assertThat("Red after blue", game.getPlayerInTurn(), is(Player.RED));
+    }
+
+
+
+
 }
 
