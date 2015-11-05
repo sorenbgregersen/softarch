@@ -59,8 +59,8 @@ public class TestAlphaCiv {
 
     @Test
     public void thereIsOceanAt1_0() {
-        Tile t = game.getTileAt(new Position(1, 0));
-        String tiletype = t.getTypeString();
+        Tile t1_0 = game.getTileAt(new Position(1, 0));
+        String tiletype = t1_0.getTypeString();
         assertThat("There should ocean at (1,0)", tiletype, is("ocean"));
     }
 
@@ -85,8 +85,20 @@ public class TestAlphaCiv {
         assertThat("Red after blue", game.getPlayerInTurn(), is(Player.RED));
     }
 
+    @Test
+    public void thereShouldBeARedArcherAt2_0() {
+        Unit u2_0 = game.getUnitAt(new Position(2,0));
+        assertThat("there should be an archer at 2,0", u2_0.getTypeString(), is(GameConstants.ARCHER));
 
+        assertThat("the archer belongs to red", u2_0.getOwner(), is(Player.RED));
+    }
 
+    @Test
+    public void thereShouldBeABlueLegionAt3_2() {
+        Unit u3_2 = game.getUnitAt(new Position(3, 2));
+        assertThat("there should be a legion at 3,2", u3_2.getTypeString(), is(GameConstants.LEGION));
 
+        assertThat("the legion belongs to blue", u3_2.getOwner(), is(Player.BLUE));
+    }
 }
 

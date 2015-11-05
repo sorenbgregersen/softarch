@@ -33,13 +33,14 @@ public class GameImpl implements Game {
     public CityImpl city1 = new CityImpl(Player.RED);
     public TileImpl tile1_0 = new TileImpl("ocean");
     public Player playerInTurn = Player.RED;
+    public UnitImpl unit2_0 = new UnitImpl();
 
     public Tile getTileAt(Position p) {
         return tile1_0;
     }
 
     public Unit getUnitAt(Position p) {
-        return null;
+        return unit2_0;
     }
 
     public City getCityAt(Position p) {
@@ -69,8 +70,6 @@ public class GameImpl implements Game {
         } else if (playerInTurn == Player.BLUE) {
             playerInTurn = Player.RED;
         }
-
-
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
