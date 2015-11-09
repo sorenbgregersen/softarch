@@ -1,14 +1,21 @@
 Testsuite: hotciv.standard.TestAlphaCiv
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0,029 sec
+Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0,08 sec
 
-Testcase: shouldHaveRedCityAt1_1 took 0,007 sec
+Testcase: thereShouldBeARedArcherAt2_0 took 0,02 sec
+Testcase: thereIsHillsAt0_1 took 0 sec
+Testcase: thereIsOceanAt1_0 took 0 sec
+Testcase: thereShouldBeABlueLegionAt3_2 took 0,008 sec
 	FAILED
-There should be a city at (1,1)
-Expected: is not null
-     but: was null
-junit.framework.AssertionFailedError: There should be a city at (1,1)
-Expected: is not null
-     but: was null
+there should be a legion at 3,2
+Expected: is "legion"
+     but: was "archer"
+junit.framework.AssertionFailedError: there should be a legion at 3,2
+Expected: is "legion"
+     but: was "archer"
 	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
-	at hotciv.standard.TestAlphaCiv.shouldHaveRedCityAt1_1(TestAlphaCiv.java:49)
+	at hotciv.standard.TestAlphaCiv.thereShouldBeABlueLegionAt3_2(TestAlphaCiv.java:105)
 
+Testcase: shouldHaveRedCityAt1_1 took 0,002 sec
+Testcase: populationIsAlways1 took 0 sec
+Testcase: redWinsinYear3000BC took 0 sec
+Testcase: afterRedItIsBlue took 0 sec

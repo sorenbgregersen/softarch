@@ -32,14 +32,22 @@ import hotciv.framework.*;
 public class GameImpl implements Game {
     public CityImpl city1 = new CityImpl(Player.RED);
     public TileImpl tile1_0 = new TileImpl("ocean");
+    public TileImpl tile0_1 = new TileImpl("hills");
     public Player playerInTurn = Player.RED;
-    public UnitImpl unit2_0 = new UnitImpl();
+    public UnitImpl unit2_0 = new UnitImpl("archer", Player.RED);
+    public UnitImpl unit3_2 = new UnitImpl("legion", Player.BLUE);
 
     public Tile getTileAt(Position p) {
-        return tile1_0;
+        TileImpl res = tile0_1;
+        if (p.equals(new Position(1, 0))) {
+            res = tile1_0;
+        }
+        return res;
     }
 
     public Unit getUnitAt(Position p) {
+
+
         return unit2_0;
     }
 

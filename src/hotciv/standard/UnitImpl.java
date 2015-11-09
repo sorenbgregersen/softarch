@@ -8,14 +8,22 @@ import hotciv.framework.Unit;
  * Created by Søren on 05-11-2015.
  */
 public class UnitImpl implements Unit {
+    public String type;
+    public Player owner;
+
+    public UnitImpl(String _type, Player _owner) {
+        this.type = _type;
+        this.owner = _owner;
+    }
+
     @Override
     public String getTypeString() {
-        return GameConstants.ARCHER;
+        return type;
     }
 
     @Override
     public Player getOwner() {
-        return Player.RED;
+        return owner;
     }
 
     @Override
