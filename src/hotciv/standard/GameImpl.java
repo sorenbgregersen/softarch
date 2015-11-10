@@ -30,29 +30,73 @@ import hotciv.framework.*;
  */
 
 public class GameImpl implements Game {
-    public CityImpl city1 = new CityImpl(Player.RED);
-    public TileImpl tile1_0 = new TileImpl("ocean");
-    public TileImpl tile0_1 = new TileImpl("hills");
-    public Player playerInTurn = Player.RED;
-    public UnitImpl unit2_0 = new UnitImpl("archer", Player.RED);
-    public UnitImpl unit3_2 = new UnitImpl("legion", Player.BLUE);
+    public CityImpl city1;
+    public CityImpl city2;
+    public TileImpl tile1_0;
+    public TileImpl tile0_1;
+    public TileImpl tile2_2;
+    public TileImpl plains;
+    public Player playerInTurn;
+    public UnitImpl unit2_0;
+    public UnitImpl unit3_2;
+    public UnitImpl unit4_3;
+    public int gameAge;
+
+    public GameImpl(){
+        city1 = new CityImpl(Player.RED);
+        city2 = new CityImpl(Player.BLUE);
+        tile1_0 = new TileImpl("ocean");
+        tile0_1 = new TileImpl("hills");
+        tile2_2 = new TileImpl("mountain");
+        plains = new TileImpl("plains");
+        playerInTurn = Player.RED;
+        unit2_0 = new UnitImpl("archer", Player.RED);
+        unit3_2 = new UnitImpl("legion", Player.BLUE);
+        unit4_3 = new UnitImpl("settler", Player.RED);
+        gameAge = -4000;
+    }
 
     public Tile getTileAt(Position p) {
-        TileImpl res = tile0_1;
-        if (p.equals(new Position(1, 0))) {
-            res = tile1_0;
+        TileImpl res = null;
+        for (int row = GameConstants.WORLDSIZE - 1; row >= 0; row--) {
+            for (int column = GameConstants.WORLDSIZE - 1; column >= 0; column--) {
+                if (!(p.equals(new Position(1, 0)) || p.equals(new Position(0, 1)) || p.equals(new Position(2, 2)))) {
+                    res = plains;
+                } else if (p.equals(new Position(1, 0))) {
+                    res = tile1_0;
+                } else if (p.equals(new Position(0, 1))) {
+                    res = tile0_1;
+                } else if (p.equals(new Position(2, 2))) {
+                    res = tile2_2;
+                }
+            }
         }
         return res;
     }
 
     public Unit getUnitAt(Position p) {
-
-
-        return unit2_0;
+        UnitImpl res = null;
+        if(p.equals(new Position(2,0))){
+            res = unit2_0;
+        }
+        else if (p.equals(new Position(3,2))){
+            res = unit3_2;
+        }
+        else if (p.equals(new Position(4,3))){
+            res = unit4_3;
+        }
+        return res;
     }
 
     public City getCityAt(Position p) {
-        return city1;
+        CityImpl res = null;
+        if(p.equals(new Position(1,1))){
+            res = city1;
+        }
+        else if (p.equals(new Position(4,1))) {
+            res = city2;
+        }
+        return res;
     }
 
     public Player getPlayerInTurn() {
@@ -65,7 +109,7 @@ public class GameImpl implements Game {
     }
 
     public int getAge() {
-        return 3000;
+        return gameAge;
     }
 
     public boolean moveUnit(Position from, Position to) {
@@ -73,6 +117,7 @@ public class GameImpl implements Game {
     }
 
     public void endOfTurn() {
+        gameAge += 100;
         if (playerInTurn == Player.RED) {
             playerInTurn = Player.BLUE;
         } else if (playerInTurn == Player.BLUE) {

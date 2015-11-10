@@ -45,7 +45,6 @@ public class TestAlphaCiv {
         game = new GameImpl();
     }
 
-
     @Test
     public void shouldHaveRedCityAt1_1() {
         City c = game.getCityAt(new Position(1, 1));
@@ -58,23 +57,79 @@ public class TestAlphaCiv {
     }
 
     @Test
+    public void shouldHaveBlueCityAt4_1() {
+        City c = game.getCityAt(new Position(4, 1));
+        assertThat("There should be a city at (4,1)",
+                c, is(notNullValue()));
+
+        Player p = c.getOwner();
+        assertThat("The city should be owned by Blue player",
+                p, is(Player.BLUE));
+    }
+
+    @Test
+    public void citiesProduce6ProductionPerRound(){
+        City c = game.getCityAt(new Position(1,1));
+        assertThat("Cities produce 6 production", c.getProduction(),is("6"));
+
+
+    }
+
+    @Test
     public void thereIsOceanAt1_0() {
         Tile t1_0 = game.getTileAt(new Position(1, 0));
         String tiletype = t1_0.getTypeString();
-        assertThat("There should ocean at (1,0)", tiletype, is("ocean"));
+        assertThat("There should be ocean at (1,0)", tiletype, is("ocean"));
     }
+
     @Test
     public void thereIsHillsAt0_1() {
         Tile t0_1 = game.getTileAt(new Position(0, 1));
         String tiletype = t0_1.getTypeString();
-        assertThat("There should Hills at (0,1)", tiletype, is("hills"));
+        assertThat("There should be hills at (0,1)", tiletype, is("hills"));
     }
 
+    @Test
+    public void thereIsMountainsAt2_2() {
+        Tile t2_2 = game.getTileAt(new Position(2, 2));
+        String tiletype = t2_2.getTypeString();
+        assertThat("There should be mountain at (2,2)", tiletype, is("mountain"));
+    }
 
     @Test
-    public void redWinsinYear3000BC() {
-        assertThat("year is 3000BC", game.getAge(), is(3000));
+    public void plainsEverywhereExcept1_0And0_1And2_2() {
+
+        for(int row = GameConstants.WORLDSIZE-1; row>=0; row--){
+            for(int column = GameConstants.WORLDSIZE-1; column>=0; column--){
+                if(!(row == 1 && column == 0 || row == 0 && column == 1 || row == 2 && column == 2)){
+                    Position pos = new Position(row, column);
+                    String tiletype = game.getTileAt(pos).getTypeString();
+                    assertThat("There should be plains everywhere except (1,0), (0,1) and (2,2) " + row + "," + column,
+                            tiletype, is("plains"));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void redWinsInYear3000BC() {
+        for(int i = 0 ; i < 10 ; i++){
+            game.endOfTurn();
+        }
+        assertThat("year is 3000BC", game.getAge(), is(-3000));
         assertThat("red wins", game.getWinner(), is(Player.RED));
+    }
+
+    @Test
+    public void gameStartsInYear4000BC() {
+        assertThat("the game starts in year 4000 BC", game.getAge(), is(-4000));
+    }
+
+    @Test
+    public void eachTurnLasts100Years() {
+        assertThat("each turn lasts 100 year", game.getAge(), is(-4000));
+        game.endOfTurn();
+        assertThat("each turn lasts 100 year", game.getAge(), is(-3900));
     }
 
     @Test
@@ -104,6 +159,13 @@ public class TestAlphaCiv {
         Unit u3_2 = game.getUnitAt(new Position(3, 2));
         assertThat("there should be a legion at 3,2", u3_2.getTypeString(), is(GameConstants.LEGION));
         assertThat("the legion belongs to blue", u3_2.getOwner(), is(Player.BLUE));
+    }
+
+    @Test
+    public void thereShouldBeARedSettlerAt4_3() {
+        Unit u4_3 = game.getUnitAt(new Position(4, 3));
+        assertThat("there should be a settler at 4,3", u4_3.getTypeString(), is(GameConstants.SETTLER));
+        assertThat("the settler belongs to Red", u4_3.getOwner(), is(Player.RED));
     }
 }
 
