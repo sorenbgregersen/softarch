@@ -168,5 +168,15 @@ public class TestAlphaCiv {
         assertThat("there should be a settler at 4,3", u4_3.getTypeString(), is(GameConstants.SETTLER));
         assertThat("the settler belongs to Red", u4_3.getOwner(), is(Player.RED));
     }
+
+    @Test
+    public void shouldMoveRedArcherFrom2_0To2_1() {
+        // move unit from 2,0 to 2,1
+        Unit unit = game.getUnitAt(new Position(2, 0));
+        game.moveUnit(new Position(2, 0), new Position(2, 1));
+        assertThat("the red archer has moved to 2_1",
+                game.getUnitAt(new Position(2, 1)), is(sameInstance(unit)));
+    }
+    
 }
 

@@ -2,6 +2,9 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+import java.util.Properties;
+
 /**
  * Skeleton implementation of HotCiv.
  * <p>
@@ -41,6 +44,7 @@ public class GameImpl implements Game {
     public UnitImpl unit3_2;
     public UnitImpl unit4_3;
     public int gameAge;
+    public HashMap<Position, Unit> unitMap;
 
 
     public GameImpl(){
@@ -55,6 +59,10 @@ public class GameImpl implements Game {
         unit3_2 = new UnitImpl("legion", Player.BLUE);
         unit4_3 = new UnitImpl("settler", Player.RED);
         gameAge = -4000;
+        unitMap = new HashMap<>();
+        unitMap.put(new Position(2,0), unit2_0);
+        unitMap.put(new Position(3,2), unit3_2);
+        unitMap.put(new Position(4,3), unit4_3);
     }
 
     public Tile getTileAt(Position p) {
@@ -75,17 +83,7 @@ public class GameImpl implements Game {
     }
 
     public Unit getUnitAt(Position p) {
-        UnitImpl res = null;
-        if(p.equals(new Position(2,0))){
-            res = unit2_0;
-        }
-        else if (p.equals(new Position(3,2))){
-            res = unit3_2;
-        }
-        else if (p.equals(new Position(4,3))){
-            res = unit4_3;
-        }
-        return res;
+        return unitMap.get(p);
     }
 
     public City getCityAt(Position p) {
@@ -113,7 +111,9 @@ public class GameImpl implements Game {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return false;
+        Unit u = unitMap.get(from);
+        unitMap.put(to, u);
+        return true;
     }
 
     public void endOfTurn() {
