@@ -97,18 +97,19 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void plainsEverywhereExcept1_0And0_1And2_2() {
+    public void plainsAt9_9And16_16And12_4() {
 
-        for(int row = GameConstants.WORLDSIZE-1; row>=0; row--){
-            for(int column = GameConstants.WORLDSIZE-1; column>=0; column--){
-                if(!(row == 1 && column == 0 || row == 0 && column == 1 || row == 2 && column == 2)){
-                    Position pos = new Position(row, column);
-                    String tiletype = game.getTileAt(pos).getTypeString();
-                    assertThat("There should be plains everywhere except (1,0), (0,1) and (2,2) " + row + "," + column,
-                            tiletype, is("plains"));
-                }
-            }
-        }
+        String t9_9 = game.getTileAt(new Position(9, 9)).getTypeString();
+        assertThat("There should be plains at (9,9)"
+                , t9_9, is("plains"));
+
+        String t16_16 = game.getTileAt(new Position(16, 16)).getTypeString();
+        assertThat("There should be plains at (16,16)"
+                , t16_16, is("plains"));
+
+        String t12_4 = game.getTileAt(new Position(12, 4)).getTypeString();
+        assertThat("There should be plains at (12,4)"
+                , t12_4, is("plains"));
     }
 
     @Test

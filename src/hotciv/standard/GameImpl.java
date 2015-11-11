@@ -42,6 +42,7 @@ public class GameImpl implements Game {
     public UnitImpl unit4_3;
     public int gameAge;
 
+
     public GameImpl(){
         city1 = new CityImpl(Player.RED);
         city2 = new CityImpl(Player.BLUE);
@@ -57,21 +58,20 @@ public class GameImpl implements Game {
     }
 
     public Tile getTileAt(Position p) {
-        TileImpl res = null;
-        for (int row = GameConstants.WORLDSIZE - 1; row >= 0; row--) {
-            for (int column = GameConstants.WORLDSIZE - 1; column >= 0; column--) {
-                if (!(p.equals(new Position(1, 0)) || p.equals(new Position(0, 1)) || p.equals(new Position(2, 2)))) {
-                    res = plains;
-                } else if (p.equals(new Position(1, 0))) {
-                    res = tile1_0;
-                } else if (p.equals(new Position(0, 1))) {
-                    res = tile0_1;
-                } else if (p.equals(new Position(2, 2))) {
-                    res = tile2_2;
-                }
-            }
+
+        if (p.equals(new Position(1, 0))) {
+            return tile1_0;
         }
-        return res;
+
+        if (p.equals(new Position(0, 1))) {
+            return tile0_1;
+        }
+
+        if (p.equals(new Position(2, 2))) {
+            return tile2_2;
+        }
+        return plains;
+
     }
 
     public Unit getUnitAt(Position p) {
