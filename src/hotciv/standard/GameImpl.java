@@ -50,14 +50,14 @@ public class GameImpl implements Game {
     public GameImpl(){
         city1 = new CityImpl(Player.RED);
         city2 = new CityImpl(Player.BLUE);
-        tile1_0 = new TileImpl("ocean");
-        tile0_1 = new TileImpl("hills");
-        tile2_2 = new TileImpl("mountain");
-        plains = new TileImpl("plains");
+        tile1_0 = new TileImpl(GameConstants.OCEANS);
+        tile0_1 = new TileImpl(GameConstants.HILLS);
+        tile2_2 = new TileImpl(GameConstants.MOUNTAINS);
+        plains = new TileImpl(GameConstants.PLAINS);
         playerInTurn = Player.RED;
-        unit2_0 = new UnitImpl("archer", Player.RED);
-        unit3_2 = new UnitImpl("legion", Player.BLUE);
-        unit4_3 = new UnitImpl("settler", Player.RED);
+        unit2_0 = new UnitImpl(GameConstants.ARCHER, Player.RED);
+        unit3_2 = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        unit4_3 = new UnitImpl(GameConstants.SETTLER, Player.RED);
         gameAge = -4000;
         unitMap = new HashMap<>();
         unitMap.put(new Position(2,0), unit2_0);
