@@ -111,8 +111,31 @@ public class GameImpl implements Game {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        Unit u = unitMap.get(from);
-        unitMap.put(to, u);
+        Unit u_from = unitMap.get(from);
+        Unit u_to = unitMap.get(to);
+        unitMap.put(to, u_from);
+        unitMap.put(from, null);
+
+        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)){
+            return false;
+        }
+/*
+        //This one belongs to the test: redCannotMoveBluesUnit()
+        if (getUnitAt(from).getOwner() != getPlayerInTurn()) {
+            return false;
+        }
+*/
+/*
+        if (getUnitAt(to).getTypeString() != null) {
+            if(u_from.getOwner() != u_to.getOwner()) {
+                unitMap.put(to, u_from);
+                unitMap.put(from, null);
+                return true;
+            }
+            System.out.print("u_from " + u_from + " \n");
+            System.out.print("u_to " + u_to + " \n");
+        }
+*/
         return true;
     }
 

@@ -170,23 +170,66 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void shouldMoveRedArcherFrom2_0To2_1() {
-        // move unit from 2,0 to 2,1
-        Unit unit = game.getUnitAt(new Position(2, 0));
-        game.moveUnit(new Position(2, 0), new Position(2, 1));
-        assertThat("the red archer has moved to 2_1",
-                game.getUnitAt(new Position(2, 1)), is(sameInstance(unit)));
+    public void shouldNotMoveOverMountain(){
+        game.moveUnit(new Position(2,1), new Position(2,2));
+        assertThat("The unit can not move onto the mountain",
+                game.moveUnit(new Position(2, 1), new Position(2, 2)), is(false));
+        assertThat("There is no unit on the mountains",
+                game.getUnitAt(new Position(2, 2)), is(nullValue()));
     }
 
     @Test
-    public void shouldNotMoveOverMountain(){
-        game.moveUnit(new Position(2,1), new Position(2,2));
-        assertThat("The unit can not move onto the mountain"
-                , game.moveUnit(new Position(2,1),new Position(2,2)),is(false));
-        assertThat("There is no unit on the mountians", game.getUnitAt(new Position(2,2)), is(nullValue()));
-
-
+    public void blueMovesOntoRedAndWins() {
+        game.moveUnit(new Position(3, 2), new Position(4, 3));
+        assertThat("blue moves to red and wins",
+                game.getUnitAt(new Position(4, 3)).getOwner(), is(Player.BLUE));
     }
 
-}
+    @Test
+    public void redMovesOntoRedAndWins() {
+        game.moveUnit(new Position(4, 3), new Position(3, 2));
+        assertThat("red moves to blue and wins",
+                game.getUnitAt(new Position(3, 2)).getOwner(), is(Player.RED));
+    }
 
+    @Test
+    public void shouldMoveRedArcherFrom2_0To2_1() {
+        Unit unit = game.getUnitAt(new Position(2, 0));
+        // move unit from 2,0 to 2,1
+        game.moveUnit(new Position(2, 0), new Position(2, 1));
+        assertThat("the red archer has moved to 2_1",
+                game.getUnitAt(new Position(2, 1)), is(sameInstance(unit)));
+        //System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
+        //System.out.print("2,1: " + game.getUnitAt(new Position(2, 1)).getTypeString() + " \n");
+    }
+
+    @Test
+    public void unitsAreMovedAndNotOnlyCopied() {
+        game.getUnitAt(new Position(2, 0));
+        game.moveUnit(new Position(2, 0), new Position(2, 1));
+        assertThat("the unit moved is not present at its original position after move",
+                game.getUnitAt(new Position(2, 0)), is(nullValue()));
+    }
+
+    @Test
+    public void redCannotMoveBluesUnit() {
+        game.getPlayerInTurn().equals(Player.RED);
+        assertThat("red can not move blue's legion from 3,2 to 3,3",
+                game.moveUnit(new Position(3, 2), new Position(3, 3)), is(false));
+    }
+/*
+    @Test
+    public void shouldAllowOnlyOneUnitAtATile() {
+        game.moveUnit(new Position(2, 0), new Position(3, 1));
+        game.moveUnit(new Position(4, 3), new Position(4, 2));
+        game.endOfTurn();
+        game.moveUnit(new Position(3, 1), new Position(4, 2));
+        assertThat("two units cannot be at the same tile at the same time",
+                game.getUnitAt(new Position(4, 2)), is(sameInstance(game.getUnitAt(new Position(3, 1)))));
+        System.out.print("4,2: " + game.getUnitAt(new Position(4, 2)).getTypeString() + " \n");
+        System.out.print("3,1: " + game.getUnitAt(new Position(3, 1)).getTypeString() + " \n");
+        System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
+        System.out.print("4,3: " + game.getUnitAt(new Position(4, 3)).getTypeString() + " \n");
+    }
+    */
+}
