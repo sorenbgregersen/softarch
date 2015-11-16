@@ -201,7 +201,7 @@ public class TestAlphaCiv {
         //System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
         //System.out.print("2,1: " + game.getUnitAt(new Position(2, 1)).getTypeString() + " \n");
     }
-<
+
     @Test
     public void unitsAreMovedAndNotOnlyCopied() {
         game.getUnitAt(new Position(2, 0));

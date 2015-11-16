@@ -112,32 +112,33 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         Unit u_from = unitMap.get(from);
         Unit u_to = unitMap.get(to);
-
-        if (Math.abs(from.getColumn() - to.getColumn()) > Math.abs(1) || Math.abs(from.getRow() - to.getRow()) > Math.abs(1)) {
-
-
-            if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
-                return false;
-            }
-
-            //This one belongs to the test: redCannotMoveBluesUnit()
-            else if (u_from.getOwner() != getPlayerInTurn()) {
-                return false;
-            } else if (unitMap.containsKey(to)) {
-                if (!u_from.getOwner().equals(u_to.getOwner())) {
-                    unitMap.remove(to);
-                    unitMap.put(to, u_from);
-                    return true;
-                }
-                return false;
-            } else {
-                unitMap.put(to, u_from);
-                unitMap.remove(from);
-            }
-
-            return true;
+        
+        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
+            return false;
         }
-        return  false;
+        else if (u_from.getOwner() != getPlayerInTurn()) {
+            return false;
+
+        }
+        else if (unitMap.containsKey(to)) {
+            if (!u_from.getOwner().equals(u_to.getOwner())) {
+                unitMap.remove(to);
+                unitMap.put(to, u_from);
+                return true;
+            }
+            return false;
+
+        }else if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
+                (Math.abs(from.getRow() - to.getRow()) > 1)) {
+            return false;
+        }
+
+        else {
+            unitMap.put(to, u_from);
+            unitMap.remove(from);
+        }
+
+        return true;
     }
 
     public void endOfTurn() {
