@@ -71,8 +71,6 @@ public class TestAlphaCiv {
     public void citiesProduce6ProductionPerRound(){
         City c = game.getCityAt(new Position(1,1));
         assertThat("Cities produce 6 production", c.getProduction(),is("6"));
-
-
     }
 
     @Test
@@ -180,13 +178,14 @@ public class TestAlphaCiv {
 
     @Test
     public void blueMovesOntoRedAndWins() {
+        game.endOfTurn();
         game.moveUnit(new Position(3, 2), new Position(4, 3));
         assertThat("blue moves to red and wins",
                 game.getUnitAt(new Position(4, 3)).getOwner(), is(Player.BLUE));
     }
 
     @Test
-    public void redMovesOntoRedAndWins() {
+    public void redMovesOntoBlueAndWins() {
         game.moveUnit(new Position(4, 3), new Position(3, 2));
         assertThat("red moves to blue and wins",
                 game.getUnitAt(new Position(3, 2)).getOwner(), is(Player.RED));
@@ -202,7 +201,7 @@ public class TestAlphaCiv {
         //System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
         //System.out.print("2,1: " + game.getUnitAt(new Position(2, 1)).getTypeString() + " \n");
     }
-
+<
     @Test
     public void unitsAreMovedAndNotOnlyCopied() {
         game.getUnitAt(new Position(2, 0));
@@ -213,23 +212,25 @@ public class TestAlphaCiv {
 
     @Test
     public void redCannotMoveBluesUnit() {
-        game.getPlayerInTurn().equals(Player.RED);
-        assertThat("red can not move blue's legion from 3,2 to 3,3",
-                game.moveUnit(new Position(3, 2), new Position(3, 3)), is(false));
+        assertFalse("red can not move blue's legion from 3,2 to 3,3",
+                game.moveUnit(new Position(3, 2), new Position(3, 3)));
     }
-/*
+
     @Test
     public void shouldAllowOnlyOneUnitAtATile() {
-        game.moveUnit(new Position(2, 0), new Position(3, 1));
-        game.moveUnit(new Position(4, 3), new Position(4, 2));
+        game.moveUnit(new Position(2, 0), new Position(3,1));
         game.endOfTurn();
-        game.moveUnit(new Position(3, 1), new Position(4, 2));
-        assertThat("two units cannot be at the same tile at the same time",
-                game.getUnitAt(new Position(4, 2)), is(sameInstance(game.getUnitAt(new Position(3, 1)))));
-        System.out.print("4,2: " + game.getUnitAt(new Position(4, 2)).getTypeString() + " \n");
-        System.out.print("3,1: " + game.getUnitAt(new Position(3, 1)).getTypeString() + " \n");
-        System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
-        System.out.print("4,3: " + game.getUnitAt(new Position(4, 3)).getTypeString() + " \n");
+        game.endOfTurn();
+        game.moveUnit(new Position(3,1), new Position(4,2));
+        game.endOfTurn();
+        game.endOfTurn();
+                assertFalse("two units cannot be at the same tile at the same time",
+                        game.moveUnit(new Position(4, 2), new Position(4, 3)));
     }
-    */
+
+    @Test
+    public void unitsCanOnlyMoveOneTilePerTurn(){
+        assertFalse("the game return false if a unit is moved more then one tile",
+                game.moveUnit(new Position(2, 0), new Position(3,3)));
+    }
 }

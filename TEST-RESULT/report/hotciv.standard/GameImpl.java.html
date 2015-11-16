@@ -3,7 +3,6 @@
 import hotciv.framework.*;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -40,110 +39,122 @@ public class GameImpl implements Game {
     public TileImpl tile2_2;
     public TileImpl plains;
     public Player playerInTurn;
-    public UnitImpl unit2_0;
-    public UnitImpl unit3_2;
-    public UnitImpl unit4_3;
+    public UnitImpl redArcher;
+    public UnitImpl blueLegion;
+    public UnitImpl redSettler;
     public int gameAge;
     public HashMap&lt;Position, Unit&gt; unitMap;
 
 
-<span class="fc" id="L50">    public GameImpl(){</span>
-<span class="fc" id="L51">        city1 = new CityImpl(Player.RED);</span>
-<span class="fc" id="L52">        city2 = new CityImpl(Player.BLUE);</span>
-<span class="fc" id="L53">        tile1_0 = new TileImpl(GameConstants.OCEANS);</span>
-<span class="fc" id="L54">        tile0_1 = new TileImpl(GameConstants.HILLS);</span>
-<span class="fc" id="L55">        tile2_2 = new TileImpl(GameConstants.MOUNTAINS);</span>
-<span class="fc" id="L56">        plains = new TileImpl(GameConstants.PLAINS);</span>
-<span class="fc" id="L57">        playerInTurn = Player.RED;</span>
-<span class="fc" id="L58">        unit2_0 = new UnitImpl(GameConstants.ARCHER, Player.RED);</span>
-<span class="fc" id="L59">        unit3_2 = new UnitImpl(GameConstants.LEGION, Player.BLUE);</span>
-<span class="fc" id="L60">        unit4_3 = new UnitImpl(GameConstants.SETTLER, Player.RED);</span>
-<span class="fc" id="L61">        gameAge = -4000;</span>
-<span class="fc" id="L62">        unitMap = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L63">        unitMap.put(new Position(2,0), unit2_0);</span>
-<span class="fc" id="L64">        unitMap.put(new Position(3,2), unit3_2);</span>
-<span class="fc" id="L65">        unitMap.put(new Position(4,3), unit4_3);</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L49">    public GameImpl(){</span>
+<span class="fc" id="L50">        city1 = new CityImpl(Player.RED);</span>
+<span class="fc" id="L51">        city2 = new CityImpl(Player.BLUE);</span>
+<span class="fc" id="L52">        tile1_0 = new TileImpl(GameConstants.OCEANS);</span>
+<span class="fc" id="L53">        tile0_1 = new TileImpl(GameConstants.HILLS);</span>
+<span class="fc" id="L54">        tile2_2 = new TileImpl(GameConstants.MOUNTAINS);</span>
+<span class="fc" id="L55">        plains = new TileImpl(GameConstants.PLAINS);</span>
+<span class="fc" id="L56">        playerInTurn = Player.RED;</span>
+<span class="fc" id="L57">        redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);</span>
+<span class="fc" id="L58">        blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);</span>
+<span class="fc" id="L59">        redSettler = new UnitImpl(GameConstants.SETTLER, Player.RED);</span>
+<span class="fc" id="L60">        gameAge = -4000;</span>
+<span class="fc" id="L61">        unitMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L62">        unitMap.put(new Position(2,0), redArcher);</span>
+<span class="fc" id="L63">        unitMap.put(new Position(3,2), blueLegion);</span>
+<span class="fc" id="L64">        unitMap.put(new Position(4,3), redSettler);</span>
+<span class="fc" id="L65">    }</span>
 
     public Tile getTileAt(Position p) {
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (p.equals(new Position(1, 0))) {</span>
-<span class="fc" id="L71">            return tile1_0;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (p.equals(new Position(1, 0))) {</span>
+<span class="fc" id="L70">            return tile1_0;</span>
         }
 
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (p.equals(new Position(0, 1))) {</span>
-<span class="fc" id="L75">            return tile0_1;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (p.equals(new Position(0, 1))) {</span>
+<span class="fc" id="L74">            return tile0_1;</span>
         }
 
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (p.equals(new Position(2, 2))) {</span>
-<span class="fc" id="L79">            return tile2_2;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (p.equals(new Position(2, 2))) {</span>
+<span class="fc" id="L78">            return tile2_2;</span>
         }
-<span class="fc" id="L81">        return plains;</span>
+<span class="fc" id="L80">        return plains;</span>
 
     }
 
     public Unit getUnitAt(Position p) {
-<span class="fc" id="L86">        return unitMap.get(p);</span>
+<span class="fc" id="L85">        return unitMap.get(p);</span>
     }
 
     public City getCityAt(Position p) {
-<span class="fc" id="L90">        CityImpl res = null;</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        if(p.equals(new Position(1,1))){</span>
-<span class="fc" id="L92">            res = city1;</span>
+<span class="fc" id="L89">        CityImpl res = null;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if(p.equals(new Position(1,1))){</span>
+<span class="fc" id="L91">            res = city1;</span>
         }
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        else if (p.equals(new Position(4,1))) {</span>
-<span class="fc" id="L95">            res = city2;</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        else if (p.equals(new Position(4,1))) {</span>
+<span class="fc" id="L94">            res = city2;</span>
         }
-<span class="fc" id="L97">        return res;</span>
+<span class="fc" id="L96">        return res;</span>
     }
 
     public Player getPlayerInTurn() {
 
-<span class="fc" id="L102">        return playerInTurn;</span>
+<span class="fc" id="L101">        return playerInTurn;</span>
     }
 
     public Player getWinner() {
-<span class="fc" id="L106">        return Player.RED;</span>
+<span class="fc" id="L105">        return Player.RED;</span>
     }
 
     public int getAge() {
-<span class="fc" id="L110">        return gameAge;</span>
+<span class="fc" id="L109">        return gameAge;</span>
     }
 
     public boolean moveUnit(Position from, Position to) {
-<span class="fc" id="L114">        Unit u_from = unitMap.get(from);</span>
-<span class="fc" id="L115">        Unit u_to = unitMap.get(to);</span>
-<span class="fc" id="L116">        unitMap.put(to, u_from);</span>
-<span class="fc" id="L117">        unitMap.put(from, null);</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)){</span>
-<span class="fc" id="L119">            return false;</span>
+<span class="fc" id="L113">        Unit u_from = unitMap.get(from);</span>
+<span class="fc" id="L114">        Unit u_to = unitMap.get(to);</span>
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)){</span>
+<span class="fc" id="L117">            return false;</span>
         }
-<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (getUnitAt(to).getTypeString().equals(null)) {</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">            if(u_from.getOwner() != u_to.getOwner()) {</span>
-<span class="nc" id="L123">                unitMap.put(to, u_from);</span>
-                //unitMap.put()
-<span class="nc" id="L125">                return true;</span>
+
+        //This one belongs to the test: redCannotMoveBluesUnit()
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        else if (u_from.getOwner() != getPlayerInTurn()) {</span>
+<span class="fc" id="L122">            return false;</span>
+        }
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        else if (unitMap.containsKey(to)){</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if (!u_from.getOwner().equals(u_to.getOwner())) {</span>
+<span class="fc" id="L127">                unitMap.remove(to);</span>
+<span class="fc" id="L128">                unitMap.put(to, u_from);</span>
+<span class="fc" id="L129">                return true;</span>
             }
+<span class="fc" id="L131">            return false;</span>
         }
-<span class="fc" id="L128">        return true;</span>
+
+        else {
+<span class="fc" id="L135">            unitMap.put(to, u_from);</span>
+<span class="fc" id="L136">            unitMap.remove(from);</span>
+        }
+
+<span class="fc" id="L139">        return true;</span>
     }
 
     public void endOfTurn() {
-<span class="fc" id="L132">        gameAge += 100;</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (playerInTurn == Player.RED) {</span>
-<span class="fc" id="L134">            playerInTurn = Player.BLUE;</span>
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        } else if (playerInTurn == Player.BLUE) {</span>
-<span class="fc" id="L136">            playerInTurn = Player.RED;</span>
+<span class="fc" id="L143">        gameAge += 100;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (playerInTurn == Player.RED) {</span>
+<span class="fc" id="L145">            playerInTurn = Player.BLUE;</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        } else if (playerInTurn == Player.BLUE) {</span>
+<span class="fc" id="L147">            playerInTurn = Player.RED;</span>
         }
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L149">    }</span>
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L152">    }</span>
 
     public void changeProductionInCityAt(Position p, String unitType) {
-<span class="nc" id="L144">    }</span>
+<span class="nc" id="L155">    }</span>
 
     public void performUnitActionAt(Position p) {
-<span class="nc" id="L147">    }</span>
+<span class="nc" id="L158">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>

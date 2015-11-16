@@ -3,7 +3,6 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -40,9 +39,9 @@ public class GameImpl implements Game {
     public TileImpl tile2_2;
     public TileImpl plains;
     public Player playerInTurn;
-    public UnitImpl unit2_0;
-    public UnitImpl unit3_2;
-    public UnitImpl unit4_3;
+    public UnitImpl redArcher;
+    public UnitImpl blueLegion;
+    public UnitImpl redSettler;
     public int gameAge;
     public HashMap<Position, Unit> unitMap;
 
@@ -55,14 +54,14 @@ public class GameImpl implements Game {
         tile2_2 = new TileImpl(GameConstants.MOUNTAINS);
         plains = new TileImpl(GameConstants.PLAINS);
         playerInTurn = Player.RED;
-        unit2_0 = new UnitImpl(GameConstants.ARCHER, Player.RED);
-        unit3_2 = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unit4_3 = new UnitImpl(GameConstants.SETTLER, Player.RED);
+        redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);
+        blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        redSettler = new UnitImpl(GameConstants.SETTLER, Player.RED);
         gameAge = -4000;
         unitMap = new HashMap<>();
-        unitMap.put(new Position(2,0), unit2_0);
-        unitMap.put(new Position(3,2), unit3_2);
-        unitMap.put(new Position(4,3), unit4_3);
+        unitMap.put(new Position(2,0), redArcher);
+        unitMap.put(new Position(3,2), blueLegion);
+        unitMap.put(new Position(4,3), redSettler);
     }
 
     public Tile getTileAt(Position p) {
@@ -113,30 +112,32 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         Unit u_from = unitMap.get(from);
         Unit u_to = unitMap.get(to);
-        unitMap.put(to, u_from);
-        unitMap.put(from, null);
 
-        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)){
-            return false;
-        }
-/*
-        //This one belongs to the test: redCannotMoveBluesUnit()
-        if (getUnitAt(from).getOwner() != getPlayerInTurn()) {
-            return false;
-        }
-*/
-/*
-        if (getUnitAt(to).getTypeString() != null) {
-            if(u_from.getOwner() != u_to.getOwner()) {
-                unitMap.put(to, u_from);
-                unitMap.put(from, null);
-                return true;
+        if (Math.abs(from.getColumn() - to.getColumn()) > Math.abs(1) || Math.abs(from.getRow() - to.getRow()) > Math.abs(1)) {
+
+
+            if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
+                return false;
             }
-            System.out.print("u_from " + u_from + " \n");
-            System.out.print("u_to " + u_to + " \n");
+
+            //This one belongs to the test: redCannotMoveBluesUnit()
+            else if (u_from.getOwner() != getPlayerInTurn()) {
+                return false;
+            } else if (unitMap.containsKey(to)) {
+                if (!u_from.getOwner().equals(u_to.getOwner())) {
+                    unitMap.remove(to);
+                    unitMap.put(to, u_from);
+                    return true;
+                }
+                return false;
+            } else {
+                unitMap.put(to, u_from);
+                unitMap.remove(from);
+            }
+
+            return true;
         }
-*/
-        return true;
+        return  false;
     }
 
     public void endOfTurn() {
