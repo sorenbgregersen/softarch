@@ -45,6 +45,10 @@ public class TestAlphaCiv {
         game = new GameImpl();
     }
 
+    /*
+    All these test cases belongs to the AlphaCiv implementation
+     */
+
     @Test
     public void shouldHaveRedCityAt1_1() {
         City c = game.getCityAt(new Position(1, 1));
@@ -233,4 +237,13 @@ public class TestAlphaCiv {
         assertFalse("the game return false if a unit is moved more then one tile",
                 game.moveUnit(new Position(2, 0), new Position(3,3)));
     }
+
+    /*
+    The following test cases belongs to the BetaCiv implementation of HotCiv
+     */
+
+    // The winner is the player that first conquers all cities in the world.
+
+    // The world ages using a special algorithm. See test list for further explanation:
+    
 }
