@@ -37,19 +37,16 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class TestAlphaCiv {
     private Game game;
-    private LinearAging linearAging = new LinearAging();
+    private LinearAging linearAging;
     /**
      * Fixture for alphaciv testing.
      */
     @Before
     public void setUp() {
+        linearAging = new LinearAging();
         game = new GameImpl(linearAging);
 
     }
-
-    /*
-    All these test cases belongs to the AlphaCiv implementation
-     */
 
     @Test
     public void shouldHaveRedCityAt1_1() {

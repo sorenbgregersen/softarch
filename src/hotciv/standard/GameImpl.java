@@ -44,7 +44,7 @@ public class GameImpl implements Game {
     public UnitImpl redArcher;
     public UnitImpl blueLegion;
     public UnitImpl redSettler;
-    public int gameAge;
+    public int worldAge;
     public HashMap<Position, Unit> unitMap;
     WorldAgingStrategy agingStrategy;
 
@@ -59,7 +59,7 @@ public class GameImpl implements Game {
         redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);
         blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         redSettler = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        gameAge = -4000;
+        worldAge = -4000;
         unitMap = new HashMap<>();
         unitMap.put(new Position(2,0), redArcher);
         unitMap.put(new Position(3,2), blueLegion);
@@ -109,7 +109,7 @@ public class GameImpl implements Game {
     }
 
     public int getAge() {
-        return gameAge;
+        return worldAge;
     }
 
     public boolean moveUnit(Position from, Position to) {
@@ -145,7 +145,7 @@ public class GameImpl implements Game {
     }
 
     public void endOfTurn() {
-        gameAge = agingStrategy.calculateWorldAge(gameAge);
+        worldAge = agingStrategy.calculateWorldAge(worldAge);
         if (playerInTurn == Player.RED) {
             playerInTurn = Player.BLUE;
         } else if (playerInTurn == Player.BLUE) {
