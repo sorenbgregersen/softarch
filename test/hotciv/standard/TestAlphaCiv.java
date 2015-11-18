@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variance.LinearAging;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -36,13 +37,14 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class TestAlphaCiv {
     private Game game;
-
+    private LinearAging linearAging = new LinearAging();
     /**
      * Fixture for alphaciv testing.
      */
     @Before
     public void setUp() {
-        game = new GameImpl();
+        game = new GameImpl(linearAging);
+
     }
 
     /*

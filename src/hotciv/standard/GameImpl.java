@@ -1,6 +1,8 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variance.LinearAging;
+import hotciv.variance.ProgressiveAgeing;
 
 import java.util.HashMap;
 
@@ -44,9 +46,9 @@ public class GameImpl implements Game {
     public UnitImpl redSettler;
     public int gameAge;
     public HashMap<Position, Unit> unitMap;
+    WorldAgingStrategy agingStrategy;
 
-
-    public GameImpl(){
+    public GameImpl(WorldAgingStrategy _agingStrategy){
         city1 = new CityImpl(Player.RED);
         city2 = new CityImpl(Player.BLUE);
         tile1_0 = new TileImpl(GameConstants.OCEANS);
@@ -62,6 +64,7 @@ public class GameImpl implements Game {
         unitMap.put(new Position(2,0), redArcher);
         unitMap.put(new Position(3,2), blueLegion);
         unitMap.put(new Position(4,3), redSettler);
+        agingStrategy = _agingStrategy;
     }
 
     public Tile getTileAt(Position p) {
@@ -142,7 +145,7 @@ public class GameImpl implements Game {
     }
 
     public void endOfTurn() {
-        gameAge += 100;
+        gameAge = agingStrategy.calculateWorldAge(gameAge);
         if (playerInTurn == Player.RED) {
             playerInTurn = Player.BLUE;
         } else if (playerInTurn == Player.BLUE) {
