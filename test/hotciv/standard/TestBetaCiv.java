@@ -42,15 +42,11 @@ public class TestBetaCiv {
     }
 
     @Test
-    public void shouldAge25YearsBetween50And1750AD(){
-        assertThat("each turn lasts 50 year between 50 and 1750AC",progressiveAgeing.calculateWorldAge(50),is(100));
-    }
-    @Test
-    public void shouldAge5YearsBetween1750And1900AD(){
+    public void shouldAge25YearsBetween1750And1900AD(){
         assertThat("each turn lasts 25 year between 1750 and 1900AC",progressiveAgeing.calculateWorldAge(1750),is(1775));
     }
     @Test
-    public void shouldAge1YearsBetween1900And1970AD() {
+    public void shouldAge5YearsBetween1900And1970AD() {
         assertThat("each turn lasts 5 year after 1900AC", progressiveAgeing.calculateWorldAge(1900), is(1905));
 
     }
