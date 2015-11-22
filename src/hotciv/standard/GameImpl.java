@@ -47,8 +47,9 @@ public class GameImpl implements Game {
     public int worldAge;
     public HashMap<Position, Unit> unitMap;
     WorldAgingStrategy agingStrategy;
+    WinningStrategy winningStrategy;
 
-    public GameImpl(WorldAgingStrategy _agingStrategy){
+    public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy){
         city1 = new CityImpl(Player.RED);
         city2 = new CityImpl(Player.BLUE);
         tile1_0 = new TileImpl(GameConstants.OCEANS);
@@ -65,6 +66,7 @@ public class GameImpl implements Game {
         unitMap.put(new Position(3,2), blueLegion);
         unitMap.put(new Position(4,3), redSettler);
         agingStrategy = _agingStrategy;
+        winningStrategy = _winningStrategy;
     }
 
     public Tile getTileAt(Position p) {
@@ -88,7 +90,7 @@ public class GameImpl implements Game {
         return unitMap.get(p);
     }
 
-    public City getCityAt(Position p) {
+    public CityImpl getCityAt(Position p) {
         CityImpl res = null;
         if(p.equals(new Position(1,1))){
             res = city1;
@@ -105,7 +107,7 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return Player.RED;
+        return winningStrategy.detemineWinningPlayer(city1, city2);
     }
 
     public int getAge() {
@@ -121,7 +123,6 @@ public class GameImpl implements Game {
         }
         else if (u_from.getOwner() != getPlayerInTurn()) {
             return false;
-
         }
         else if (unitMap.containsKey(to)) {
             if (!u_from.getOwner().equals(u_to.getOwner())) {
@@ -131,7 +132,12 @@ public class GameImpl implements Game {
             }
             return false;
 
-        }else if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
+        } else if (getCityAt(to) != null){
+            if(getCityAt(to).getOwner() != u_from.getOwner()){
+                getCityAt(to).changeOwnership(u_from.getOwner());
+            }
+
+        } else if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
                 (Math.abs(from.getRow() - to.getRow()) > 1)) {
             return false;
         }
@@ -157,6 +163,7 @@ public class GameImpl implements Game {
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
+
     }
 
     public void performUnitActionAt(Position p) {

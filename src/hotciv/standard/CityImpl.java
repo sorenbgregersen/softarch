@@ -3,11 +3,10 @@ package hotciv.standard;
 import hotciv.framework.City;
 import hotciv.framework.Player;
 
-/**
- * Created by Søren on 02-11-2015.
- */
+
 public class CityImpl implements City {
     public Player owner;
+    public int productionTreasury = 6;
 
     public CityImpl(Player _owner) {
         this.owner = _owner;
@@ -25,7 +24,15 @@ public class CityImpl implements City {
 
     @Override
     public String getProduction () {
-        return "6";
+        return null;
+    }
+
+    public int getProductionTreasury () {
+        return productionTreasury;
+    }
+
+    public void changeOwnership(Player owner) {
+        this.owner = owner;
     }
 
     @Override

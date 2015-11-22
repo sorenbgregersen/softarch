@@ -2,17 +2,15 @@ package hotciv.variance;
 
 import hotciv.framework.WorldAgingStrategy;
 
-/**
- * Created by Alex on 18-11-2015.
- */
+
 public class ProgressiveAgeing implements WorldAgingStrategy {
     @Override
     public int calculateWorldAge(int worldAge) {
         int res = worldAge;
+
         if (worldAge < -100) {
             res = worldAge + 100;
         }
-
         if (worldAge == -100){
             res = worldAge +99;
         }

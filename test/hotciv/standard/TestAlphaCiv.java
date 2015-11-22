@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import hotciv.variance.LinearAging;
+import hotciv.variance.TurnBasedWinning;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -38,14 +39,15 @@ import static org.hamcrest.CoreMatchers.*;
 public class TestAlphaCiv {
     private Game game;
     private LinearAging linearAging;
+    private TurnBasedWinning turnBasedWinning;
     /**
      * Fixture for alphaciv testing.
      */
     @Before
     public void setUp() {
         linearAging = new LinearAging();
-        game = new GameImpl(linearAging);
-
+        turnBasedWinning = new TurnBasedWinning();
+        game = new GameImpl(linearAging, turnBasedWinning);
     }
 
     @Test
@@ -72,8 +74,8 @@ public class TestAlphaCiv {
 
     @Test
     public void citiesProduce6ProductionPerRound(){
-        City c = game.getCityAt(new Position(1,1));
-        assertThat("Cities produce 6 production", c.getProduction(),is("6"));
+        CityImpl c = (CityImpl) game.getCityAt(new Position(1, 1));
+        assertThat("Cities produce 6 production", c.getProductionTreasury() ,is(6));
     }
 
     @Test
@@ -237,12 +239,13 @@ public class TestAlphaCiv {
                 game.moveUnit(new Position(2, 0), new Position(3,3)));
     }
 
-    /*
-    The following test cases belongs to the BetaCiv implementation of HotCiv
-     */
-
-    // The winner is the player that first conquers all cities in the world.
-
-    // The world ages using a special algorithm. See test list for further explanation:
-    
+    @Test
+    public void shouldConquerCityWithUnit() {
+        game.moveUnit(new Position(4, 3), new Position(4, 2));
+        game.endOfTurn();
+        game.endOfTurn();
+        game.moveUnit(new Position(4, 2), new Position(4, 1));
+        assertThat("is a unit moves onto a city, the city is conquered",
+                game.getCityAt(new Position(4, 1)).getOwner(), is(Player.RED));
+    }
 }
