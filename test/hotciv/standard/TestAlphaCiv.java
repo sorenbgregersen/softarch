@@ -248,4 +248,27 @@ public class TestAlphaCiv {
         assertThat("is a unit moves onto a city, the city is conquered",
                 game.getCityAt(new Position(4, 1)).getOwner(), is(Player.RED));
     }
+
+    @Test
+    public void cityShouldHaveCollected10ProductionTreasury() {
+        CityImpl c = new CityImpl(Player.RED);
+        c.incrementProductionTreasury();
+        System.out.print("city c's production treasury: " + c.getProductionTreasury());
+        assertTrue("a city should have produced more than 10 production treasury",
+                c.getProductionTreasury() > 10);
+    }
+
+    @Test
+    public void setCityUnitProductionToArcher(){
+        CityImpl c = new CityImpl(Player.RED);
+        c.setProduction(GameConstants.ARCHER);
+        assertThat("the city produces archers", c.getProduction(), is(GameConstants.ARCHER));
+    }
+
+    @Test
+    public void shouldProduceUnitWhenTreasuryIsSufficient() {
+        CityImpl c = new CityImpl(Player.RED);
+        c.incrementProductionTreasury();
+        assertThat("an archer is produced when treasury is 10 or higher", );
+    }
 }

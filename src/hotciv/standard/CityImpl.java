@@ -1,12 +1,12 @@
 package hotciv.standard;
 
-import hotciv.framework.City;
-import hotciv.framework.Player;
+import hotciv.framework.*;
 
 
 public class CityImpl implements City {
     public Player owner;
     public int productionTreasury = 6;
+    public String unitProduction;
 
     public CityImpl(Player _owner) {
         this.owner = _owner;
@@ -24,11 +24,19 @@ public class CityImpl implements City {
 
     @Override
     public String getProduction () {
-        return null;
+        return unitProduction;
+    }
+
+    public void setProduction(String gameConstants) {
+        this.unitProduction = gameConstants;
     }
 
     public int getProductionTreasury () {
         return productionTreasury;
+    }
+
+    public void incrementProductionTreasury() {
+        productionTreasury += 6;
     }
 
     public void changeOwnership(Player owner) {

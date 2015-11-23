@@ -154,8 +154,10 @@ public class GameImpl implements Game {
         worldAge = agingStrategy.calculateWorldAge(worldAge);
         if (playerInTurn == Player.RED) {
             playerInTurn = Player.BLUE;
+            city1.incrementProductionTreasury();
         } else if (playerInTurn == Player.BLUE) {
             playerInTurn = Player.RED;
+            city2.incrementProductionTreasury();
         }
     }
 
