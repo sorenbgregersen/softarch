@@ -41,10 +41,6 @@ import java.util.HashMap;
 public class GameImpl implements Game {
     public CityImpl city1;
     public CityImpl city2;
-    public TileImpl tile1_0;
-    public TileImpl tile0_1;
-    public TileImpl tile2_2;
-    public TileImpl plains;
     public Player playerInTurn;
     public UnitImpl redArcher;
     public UnitImpl blueLegion;
@@ -65,10 +61,6 @@ public class GameImpl implements Game {
         city2 = new CityImpl(Player.BLUE);
         cityMap.put(new Position(1, 1), city1);
         cityMap.put(new Position(4, 1), city2);
-        //tile1_0 = new TileImpl(GameConstants.OCEANS);
-        //tile0_1 = new TileImpl(GameConstants.HILLS);
-        //tile2_2 = new TileImpl(GameConstants.MOUNTAINS);
-        //plains = new TileImpl(GameConstants.PLAINS);
         playerInTurn = Player.RED;
         redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);
         blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);
