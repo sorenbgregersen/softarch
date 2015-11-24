@@ -29,7 +29,7 @@ public class CityImpl implements City {
     }
 
     public void setProduction(String unitType) {
-        this.unitProduction = unitType;
+        unitProduction = unitType;
     }
 
     public int getProductionTreasury () {

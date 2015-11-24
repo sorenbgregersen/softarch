@@ -267,12 +267,27 @@ public class TestAlphaCiv {
 
     @Test
     public void shouldProduceUnitWhenTreasuryIsSufficient() {
-        CityImpl c = new CityImpl(Player.RED);
-        c.increaseProductionTreasury(6);
+        CityImpl c = game.getCityAt(new Position(1, 1));
         c.setProduction(GameConstants.ARCHER);
-        game.endOfTurn();
+        System.out.print("c get production: " + c.getProduction() + " \n ");
+        System.out.print("c get production treasury: " + c.getProductionTreasury() + " \n");
+        game.endOfRound();
+        System.out.print("c get production treasury after endround: " + c.getProductionTreasury());
+
         assertThat("an archer is produced when treasury is 10 or higher",
                 game.getUnitAt(new Position(1,1)).getTypeString(),is(GameConstants.ARCHER) );
     }
 
+    @Test
+    public void shouldPlaceThreeArchersAroundCity(){
+        CityImpl c = game.getCityAt(new Position(1, 1));
+        c.setProduction(GameConstants.ARCHER);
+        game.endOfRound();
+        game.endOfRound();
+        game.endOfRound();
+        game.endOfRound();
+        assertThat("there should be an archer at (0,2)",
+                game.getUnitAt(new Position(0,2)).getTypeString(),is(GameConstants.ARCHER));
+        assertThat("production treasury should be 4", c.getProductionTreasury(), is(0));
+    }
 }

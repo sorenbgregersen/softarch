@@ -4,6 +4,7 @@ import hotciv.framework.*;
 import hotciv.variance.LinearAging;
 import hotciv.variance.ProgressiveAgeing;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -156,52 +157,66 @@ public class GameImpl implements Game {
         } else if (playerInTurn == Player.BLUE) {
             playerInTurn = Player.RED;
             endOfRound();
-
         }
     }
 
     public void endOfRound(){
         city1.increaseProductionTreasury(6);
-        produceUnit(city1);
+        produceUnit(new Position(1, 1));
         city2.increaseProductionTreasury(6);
-        produceUnit(city2);
+        produceUnit(new Position(4, 1));
         worldAge = agingStrategy.calculateWorldAge(worldAge);
     }
 
-    public void changeWorkForceFocusInCityAt(Position p, String balance) {
-    }
-
-    public void changeProductionInCityAt(Position p, String unitType) {
-
-    }
-
-    public void performUnitActionAt(Position p) {
-    }
-    public void produceUnit(CityImpl city) {
+    public void produceUnit(Position p) {
         int archerCost = 10;
         int legionCost = 15;
         int settlerCost = 30;
 
-        System.out.print(city.getProduction().toString());
-        if (city.getProduction() == GameConstants.ARCHER && city.getProductionTreasury() >=archerCost ) {
-            placeUnit(city);
-            city.decreaseProductionTreasury(archerCost);
+        if (getCityAt(p).getProduction() == GameConstants.ARCHER && getCityAt(p).getProductionTreasury() >= archerCost ) {
+            placeUnit(p);
+            getCityAt(p).decreaseProductionTreasury(archerCost);
         }
-        if (city.getProduction() == GameConstants.LEGION && city.getProductionTreasury() >=legionCost) {
-            city.decreaseProductionTreasury(legionCost);
+        if (getCityAt(p).getProduction() == GameConstants.LEGION && getCityAt(p).getProductionTreasury() >= legionCost) {
+            placeUnit(p);
+            getCityAt(p).decreaseProductionTreasury(legionCost);
         }
-        if (city.getProduction() == GameConstants.SETTLER && city.getProductionTreasury() >=settlerCost) {
-            city.decreaseProductionTreasury(settlerCost);
+        if (getCityAt(p).getProduction() == GameConstants.SETTLER && getCityAt(p).getProductionTreasury() >= settlerCost) {
+            placeUnit(p);
+            getCityAt(p).decreaseProductionTreasury(settlerCost);
         }
     }
 
-    public void placeUnit(CityImpl city) {
-        UnitImpl newUnit = new UnitImpl(city.getProduction(), city.getOwner());
-        Position newUnitPosition = new Position(1,1);
-        unitMap.put(newUnitPosition,newUnit);
+    public void placeUnit(Position p) {
+        UnitImpl newUnit = new UnitImpl(getCityAt(p).getProduction(), getCityAt(p).getOwner());
+        ArrayList<Position> nearbyTiles = new ArrayList();
+        int x = p.getRow();
+        int y = p.getColumn();
 
+        nearbyTiles.add(new Position(x, y));
+        nearbyTiles.add(new Position(x-1, y));
+        nearbyTiles.add(new Position(x-1, y+1));
+        nearbyTiles.add(new Position(x, y+1));
+        nearbyTiles.add(new Position(x+1, y+1));
+        nearbyTiles.add(new Position(x+1, y));
+        nearbyTiles.add(new Position(x+1, y-1));
+        nearbyTiles.add(new Position(x, y-1));
+        nearbyTiles.add(new Position(x-1, y-1));
+
+        for(Position pos : nearbyTiles){
+            if (!unitMap.containsKey(pos)){
+                unitMap.put(pos, newUnit);
+            }
+        }
+    }
+    public void changeWorkForceFocusInCityAt(Position p, String balance) {
     }
 
+    public void changeProductionInCityAt(Position p, String unitType) {
+    }
+
+    public void performUnitActionAt(Position p) {
+    }
 }
 
 
