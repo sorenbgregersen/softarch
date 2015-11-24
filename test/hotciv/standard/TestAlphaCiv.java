@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variance.AlphaMap;
+import hotciv.variance.AlphaUnitActions;
 import hotciv.variance.LinearAging;
 import hotciv.variance.TurnBasedWinning;
 import org.junit.*;
@@ -40,6 +42,9 @@ public class TestAlphaCiv {
     private GameImpl game;
     private LinearAging linearAging;
     private TurnBasedWinning turnBasedWinning;
+    private UnitActionStrategy alphaUnitActions;
+    private AlphaMap alphaMap;
+
     /**
      * Fixture for alphaciv testing.
      */
@@ -47,7 +52,9 @@ public class TestAlphaCiv {
     public void setUp() {
         linearAging = new LinearAging();
         turnBasedWinning = new TurnBasedWinning();
-        game = new GameImpl(linearAging, turnBasedWinning);
+        alphaUnitActions = new AlphaUnitActions();
+        alphaMap = new AlphaMap();
+        game = new GameImpl(linearAging, turnBasedWinning, alphaUnitActions, alphaMap);
     }
 
     @Test
@@ -106,9 +113,9 @@ public class TestAlphaCiv {
         assertThat("There should be plains at (9,9)"
                 , t9_9, is("plains"));
 
-        String t16_16 = game.getTileAt(new Position(16, 16)).getTypeString();
-        assertThat("There should be plains at (16,16)"
-                , t16_16, is("plains"));
+        String t15_15 = game.getTileAt(new Position(15, 15)).getTypeString();
+        assertThat("There should be plains at (15,15)"
+                , t15_15, is("plains"));
 
         String t12_4 = game.getTileAt(new Position(12, 4)).getTypeString();
         assertThat("There should be plains at (12,4)"
@@ -203,8 +210,6 @@ public class TestAlphaCiv {
         game.moveUnit(new Position(2, 0), new Position(2, 1));
         assertThat("the red archer has moved to 2_1",
                 game.getUnitAt(new Position(2, 1)), is(sameInstance(unit)));
-        //System.out.print("2,0: " + game.getUnitAt(new Position(2, 0)).getTypeString() + " \n");
-        //System.out.print("2,1: " + game.getUnitAt(new Position(2, 1)).getTypeString() + " \n");
     }
 
     @Test
@@ -253,7 +258,6 @@ public class TestAlphaCiv {
     public void cityShouldHaveCollected10ProductionTreasury() {
         CityImpl c = new CityImpl(Player.RED);
         c.increaseProductionTreasury(6);
-        System.out.print("city c's production treasury: " + c.getProductionTreasury());
         assertTrue("a city should have produced more than 10 production treasury",
                 c.getProductionTreasury() > 10);
     }
@@ -269,11 +273,7 @@ public class TestAlphaCiv {
     public void shouldProduceUnitWhenTreasuryIsSufficient() {
         CityImpl c = game.getCityAt(new Position(1, 1));
         c.setProduction(GameConstants.ARCHER);
-        System.out.print("c get production: " + c.getProduction() + " \n ");
-        System.out.print("c get production treasury: " + c.getProductionTreasury() + " \n");
         game.endOfRound();
-        System.out.print("c get production treasury after endround: " + c.getProductionTreasury());
-
         assertThat("an archer is produced when treasury is 10 or higher",
                 game.getUnitAt(new Position(1,1)).getTypeString(),is(GameConstants.ARCHER) );
     }

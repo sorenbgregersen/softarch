@@ -2,14 +2,18 @@ package hotciv.standard;
 
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
+import hotciv.framework.Position;
 import hotciv.framework.Unit;
 
 /**
- * Created by Søren on 05-11-2015.
+ * Created by Sï¿½ren on 05-11-2015.
  */
 public class UnitImpl implements Unit {
     public String type;
     public Player owner;
+    public boolean isFortified = false;
+    public int moveCount = 1;
+    private int defensiveStrength = 3;
 
     public UnitImpl(String _type, Player _owner) {
         this.type = _type;
@@ -28,12 +32,30 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getMoveCount() {
-        return 0;
+        return moveCount;
+    }
+
+    public void setMoveCount(int move){
+      moveCount = move;
     }
 
     @Override
     public int getDefensiveStrength() {
-        return 0;
+        return defensiveStrength;
+    }
+
+    public void fortify(){
+
+        if (!isFortified) {
+            setMoveCount(0);
+            defensiveStrength = defensiveStrength*2;
+            isFortified = true;
+        }
+        else{
+            setMoveCount(1);
+            defensiveStrength = defensiveStrength/2;
+            isFortified = false;
+        }
     }
 
     @Override

@@ -1,9 +1,13 @@
 package hotciv.standard;
 
+import com.sun.javafx.font.t2k.T2KFactory;
+import com.sun.org.apache.xalan.internal.xsltc.dom.UnionIterator;
 import hotciv.framework.*;
+import hotciv.variance.GammaUnitActions;
 import hotciv.variance.LinearAging;
 import hotciv.variance.ProgressiveAgeing;
 
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,17 +50,25 @@ public class GameImpl implements Game {
     public UnitImpl blueLegion;
     public UnitImpl redSettler;
     public int worldAge;
-    public HashMap<Position, Unit> unitMap;
+    public HashMap<Position, UnitImpl> unitMap;
+    public HashMap<Position, CityImpl> cityMap;
     WorldAgingStrategy agingStrategy;
     WinningStrategy winningStrategy;
+    UnitActionStrategy unitActionStrategy;
+    WorldMapStrategy mapStrategy;
 
-    public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy){
+    public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
+                    UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy){
+
+        cityMap = new HashMap<>();
         city1 = new CityImpl(Player.RED);
         city2 = new CityImpl(Player.BLUE);
-        tile1_0 = new TileImpl(GameConstants.OCEANS);
-        tile0_1 = new TileImpl(GameConstants.HILLS);
-        tile2_2 = new TileImpl(GameConstants.MOUNTAINS);
-        plains = new TileImpl(GameConstants.PLAINS);
+        cityMap.put(new Position(1, 1), city1);
+        cityMap.put(new Position(4, 1), city2);
+        //tile1_0 = new TileImpl(GameConstants.OCEANS);
+        //tile0_1 = new TileImpl(GameConstants.HILLS);
+        //tile2_2 = new TileImpl(GameConstants.MOUNTAINS);
+        //plains = new TileImpl(GameConstants.PLAINS);
         playerInTurn = Player.RED;
         redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);
         blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);
@@ -68,38 +80,21 @@ public class GameImpl implements Game {
         unitMap.put(new Position(4,3), redSettler);
         agingStrategy = _agingStrategy;
         winningStrategy = _winningStrategy;
+        unitActionStrategy = _unitActionStrategy;
+        mapStrategy = _mapStrategy;
     }
 
     public Tile getTileAt(Position p) {
-
-        if (p.equals(new Position(1, 0))) {
-            return tile1_0;
-        }
-
-        if (p.equals(new Position(0, 1))) {
-            return tile0_1;
-        }
-
-        if (p.equals(new Position(2, 2))) {
-            return tile2_2;
-        }
-        return plains;
-
+        HashMap<Position, TileImpl> worldMap = mapStrategy.createWorldMap();
+        return worldMap.get(p);
     }
 
-    public Unit getUnitAt(Position p) {
+    public UnitImpl getUnitAt(Position p) {
         return unitMap.get(p);
     }
 
     public CityImpl getCityAt(Position p) {
-        CityImpl res = null;
-        if(p.equals(new Position(1,1))){
-            res = city1;
-        }
-        else if (p.equals(new Position(4,1))) {
-            res = city2;
-        }
-        return res;
+        return cityMap.get(p);
     }
 
     public Player getPlayerInTurn() {
@@ -116,8 +111,8 @@ public class GameImpl implements Game {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        Unit u_from = unitMap.get(from);
-        Unit u_to = unitMap.get(to);
+        UnitImpl u_from = unitMap.get(from);
+        UnitImpl u_to = unitMap.get(to);
 
         if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
             return false;
@@ -138,8 +133,8 @@ public class GameImpl implements Game {
                 getCityAt(to).changeOwnership(u_from.getOwner());
             }
 
-        } else if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
-                (Math.abs(from.getRow() - to.getRow()) > 1)) {
+        } else if ((Math.abs(from.getColumn() - to.getColumn()) > getUnitAt(from).getMoveCount()) ||
+                (Math.abs(from.getRow() - to.getRow()) > getUnitAt(from).getMoveCount())) {
             return false;
         }
 
@@ -209,6 +204,7 @@ public class GameImpl implements Game {
             }
         }
     }
+
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
     }
 
@@ -216,6 +212,7 @@ public class GameImpl implements Game {
     }
 
     public void performUnitActionAt(Position p) {
+        unitActionStrategy.performUnitAction(this, p);
     }
 }
 
