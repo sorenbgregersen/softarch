@@ -117,7 +117,7 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         Unit u_from = unitMap.get(from);
         Unit u_to = unitMap.get(to);
-        
+
         if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
             return false;
         }
@@ -151,14 +151,21 @@ public class GameImpl implements Game {
     }
 
     public void endOfTurn() {
-        worldAge = agingStrategy.calculateWorldAge(worldAge);
         if (playerInTurn == Player.RED) {
             playerInTurn = Player.BLUE;
-            city1.incrementProductionTreasury();
         } else if (playerInTurn == Player.BLUE) {
             playerInTurn = Player.RED;
-            city2.incrementProductionTreasury();
+            endOfRound();
+
         }
+    }
+
+    public void endOfRound(){
+        city1.increaseProductionTreasury(6);
+        produceUnit(city1);
+        city2.increaseProductionTreasury(6);
+        produceUnit(city2);
+        worldAge = agingStrategy.calculateWorldAge(worldAge);
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
@@ -170,4 +177,31 @@ public class GameImpl implements Game {
 
     public void performUnitActionAt(Position p) {
     }
+    public void produceUnit(CityImpl city) {
+        int archerCost = 10;
+        int legionCost = 15;
+        int settlerCost = 30;
+
+        System.out.print(city.getProduction().toString());
+        if (city.getProduction() == GameConstants.ARCHER && city.getProductionTreasury() >=archerCost ) {
+            placeUnit(city);
+            city.decreaseProductionTreasury(archerCost);
+        }
+        if (city.getProduction() == GameConstants.LEGION && city.getProductionTreasury() >=legionCost) {
+            city.decreaseProductionTreasury(legionCost);
+        }
+        if (city.getProduction() == GameConstants.SETTLER && city.getProductionTreasury() >=settlerCost) {
+            city.decreaseProductionTreasury(settlerCost);
+        }
+    }
+
+    public void placeUnit(CityImpl city) {
+        UnitImpl newUnit = new UnitImpl(city.getProduction(), city.getOwner());
+        Position newUnitPosition = new Position(1,1);
+        unitMap.put(newUnitPosition,newUnit);
+
+    }
+
 }
+
+

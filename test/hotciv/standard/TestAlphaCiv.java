@@ -37,7 +37,7 @@ import static org.hamcrest.CoreMatchers.*;
 
  */
 public class TestAlphaCiv {
-    private Game game;
+    private GameImpl game;
     private LinearAging linearAging;
     private TurnBasedWinning turnBasedWinning;
     /**
@@ -118,7 +118,7 @@ public class TestAlphaCiv {
     @Test
     public void redWinsInYear3000BC() {
         for(int i = 0 ; i < 10 ; i++){
-            game.endOfTurn();
+            game.endOfRound();
         }
         assertThat("year is 3000BC", game.getAge(), is(-3000));
         assertThat("red wins", game.getWinner(), is(Player.RED));
@@ -132,7 +132,7 @@ public class TestAlphaCiv {
     @Test
     public void eachTurnLasts100Years() {
         assertThat("each turn lasts 100 year", game.getAge(), is(-4000));
-        game.endOfTurn();
+        game.endOfRound();
         assertThat("each turn lasts 100 year", game.getAge(), is(-3900));
     }
 
@@ -252,7 +252,7 @@ public class TestAlphaCiv {
     @Test
     public void cityShouldHaveCollected10ProductionTreasury() {
         CityImpl c = new CityImpl(Player.RED);
-        c.incrementProductionTreasury();
+        c.increaseProductionTreasury(6);
         System.out.print("city c's production treasury: " + c.getProductionTreasury());
         assertTrue("a city should have produced more than 10 production treasury",
                 c.getProductionTreasury() > 10);
@@ -268,7 +268,11 @@ public class TestAlphaCiv {
     @Test
     public void shouldProduceUnitWhenTreasuryIsSufficient() {
         CityImpl c = new CityImpl(Player.RED);
-        c.incrementProductionTreasury();
-        assertThat("an archer is produced when treasury is 10 or higher", );
+        c.increaseProductionTreasury(6);
+        c.setProduction(GameConstants.ARCHER);
+        game.endOfTurn();
+        assertThat("an archer is produced when treasury is 10 or higher",
+                game.getUnitAt(new Position(1,1)).getTypeString(),is(GameConstants.ARCHER) );
     }
+
 }

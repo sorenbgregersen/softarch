@@ -25,18 +25,25 @@ public class CityImpl implements City {
     @Override
     public String getProduction () {
         return unitProduction;
+
     }
 
-    public void setProduction(String gameConstants) {
-        this.unitProduction = gameConstants;
+    public void setProduction(String unitType) {
+        this.unitProduction = unitType;
     }
 
     public int getProductionTreasury () {
         return productionTreasury;
     }
 
-    public void incrementProductionTreasury() {
-        productionTreasury += 6;
+    public void increaseProductionTreasury (int increaseValue) {
+        this.productionTreasury += increaseValue;
+
+    }
+
+
+    public void decreaseProductionTreasury(int decreaseValue) {
+        this.productionTreasury -= decreaseValue;
     }
 
     public void changeOwnership(Player owner) {
