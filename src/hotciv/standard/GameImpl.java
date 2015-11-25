@@ -105,10 +105,12 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         UnitImpl u_from = unitMap.get(from);
         UnitImpl u_to = unitMap.get(to);
+        boolean tileIsAMountain = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS);
+        boolean tileIsAnOcean = getTileAt(to).getTypeString().equals(GameConstants.OCEANS);
 
-        if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
+        if (tileIsAMountain || tileIsAnOcean)
             return false;
-        }
+
         else if (u_from.getOwner() != getPlayerInTurn()) {
             return false;
         }

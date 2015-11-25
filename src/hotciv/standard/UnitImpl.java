@@ -5,9 +5,6 @@ import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.framework.Unit;
 
-/**
- * Created by S�ren on 05-11-2015.
- */
 public class UnitImpl implements Unit {
     public String type;
     public Player owner;
