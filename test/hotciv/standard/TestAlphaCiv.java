@@ -81,7 +81,7 @@ public class TestAlphaCiv {
 
     @Test
     public void citiesProduce6ProductionPerRound(){
-        CityImpl c = (CityImpl) game.getCityAt(new Position(1, 1));
+        CityImpl c = game.getCityAt(new Position(1, 1));
         assertThat("Cities produce 6 production", c.getProductionTreasury() ,is(6));
     }
 
