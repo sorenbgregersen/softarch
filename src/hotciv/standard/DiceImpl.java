@@ -5,10 +5,7 @@ import hotciv.framework.Die;
 
 import java.util.Random;
 
-/**
- * Created by Alex on 25-11-2015.
- */
-public class Dice implements Die {
+public class DiceImpl implements Die {
     public int roll(){
         Random r = new Random();
         int d = r.nextInt(6)+1;
