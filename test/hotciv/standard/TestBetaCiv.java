@@ -2,30 +2,22 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import hotciv.variance.AlphaMap;
-import hotciv.variance.ConquerBasedWinning;
-import hotciv.variance.ProgressiveAgeing;
-import hotciv.variance.AlphaUnitActions;
+import hotciv.variance.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 public class TestBetaCiv {
     private GameImpl game;
-    private ProgressiveAgeing  progressiveAgeing;
-    private ConquerBasedWinning conquerBasedWinning;
-    private UnitActionStrategy alphaUnitActions;
-    private AlphaMap alphaMap;
+    private WorldAgingStrategy progressiveAgeing;
+
     /**
      * Fixture for betaciv testing.
      */
     @Before
     public void setUp() {
         progressiveAgeing = new ProgressiveAgeing();
-        conquerBasedWinning = new ConquerBasedWinning();
-        alphaUnitActions = new AlphaUnitActions();
-        alphaMap = new AlphaMap();
-        game = new GameImpl(progressiveAgeing, conquerBasedWinning, alphaUnitActions, alphaMap);
+        game = new GameImpl(progressiveAgeing, new ConquerBasedWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
     }
 
     @Test

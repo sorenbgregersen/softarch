@@ -31,7 +31,6 @@ public class UnitImpl implements Unit {
             defensiveStrength = 3;
             attackStrength = 0;
         }
-
     }
 
     @Override

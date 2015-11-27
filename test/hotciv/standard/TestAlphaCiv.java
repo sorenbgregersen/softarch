@@ -2,10 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import hotciv.variance.AlphaMap;
-import hotciv.variance.AlphaUnitActions;
-import hotciv.variance.LinearAging;
-import hotciv.variance.TurnBasedWinning;
+import hotciv.variance.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -40,21 +37,13 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class TestAlphaCiv {
     private GameImpl game;
-    private LinearAging linearAging;
-    private TurnBasedWinning turnBasedWinning;
-    private UnitActionStrategy alphaUnitActions;
-    private AlphaMap alphaMap;
 
     /**
      * Fixture for alphaciv testing.
      */
     @Before
     public void setUp() {
-        linearAging = new LinearAging();
-        turnBasedWinning = new TurnBasedWinning();
-        alphaUnitActions = new AlphaUnitActions();
-        alphaMap = new AlphaMap();
-        game = new GameImpl(linearAging, turnBasedWinning, alphaUnitActions, alphaMap);
+        game = new GameImpl(new LinearAging(), new TurnBasedWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
     }
 
     @Test

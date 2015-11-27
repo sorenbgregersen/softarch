@@ -1,11 +1,10 @@
 package hotciv.standard;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import hotciv.framework.Die;
+import hotciv.framework.DieStrategy;
 
 import java.util.Random;
 
-public class DiceImpl implements Die {
+public class DiceImpl implements DieStrategy {
     public int roll(){
         Random r = new Random();
         int d = r.nextInt(6)+1;

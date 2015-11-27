@@ -52,9 +52,10 @@ public class GameImpl implements Game {
     WinningStrategy winningStrategy;
     UnitActionStrategy unitActionStrategy;
     WorldMapStrategy mapStrategy;
+    AttackStrategy attackStrategy;
 
     public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
-                    UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy){
+                    UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy, AttackStrategy _attackStrategy){
 
         cityMap = new HashMap<>();
         city1 = new CityImpl(Player.RED);
@@ -74,6 +75,7 @@ public class GameImpl implements Game {
         winningStrategy = _winningStrategy;
         unitActionStrategy = _unitActionStrategy;
         mapStrategy = _mapStrategy;
+        attackStrategy = _attackStrategy;
     }
 
     public Tile getTileAt(Position p) {

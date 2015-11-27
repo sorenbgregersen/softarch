@@ -36,7 +36,7 @@ public class TestDeltaCiv {
                 "..ooohhoo.......",
                 ".....ooooooooo..",
         };
-        game = new GameImpl(new LinearAging(), new TurnBasedWinning(), new AlphaUnitActions(), new DeltaMap(layout));
+        game = new GameImpl(new LinearAging(), new TurnBasedWinning(), new AlphaUnitActions(), new DeltaMap(layout), new AlphaAttack());
 
     }
 
