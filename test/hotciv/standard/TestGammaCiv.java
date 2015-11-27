@@ -1,10 +1,8 @@
 package hotciv.standard;
 
+import hotciv.framework.AttackStrategy;
 import hotciv.framework.Position;
-import hotciv.variance.AlphaMap;
-import hotciv.variance.GammaUnitActions;
-import hotciv.variance.LinearAging;
-import hotciv.variance.TurnBasedWinning;
+import hotciv.variance.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -12,15 +10,17 @@ import static org.hamcrest.CoreMatchers.*;
 public class TestGammaCiv {
     private GameImpl game;
     private LinearAging linearAging;
-    private TurnBasedWinning turnBasedWinning;
+    private AlphaWinning turnBasedWinning;
     private GammaUnitActions gammaUnitActions;
     private AlphaMap alphaMap;
+    private AttackStrategy alphaAttack;
 
     @Before
     public void setUp() {
         gammaUnitActions = new GammaUnitActions();
         alphaMap = new AlphaMap();
-        game = new GameImpl(linearAging, turnBasedWinning, gammaUnitActions, alphaMap);
+        alphaAttack = new AlphaAttack();
+        game = new GameImpl(linearAging, turnBasedWinning, gammaUnitActions, alphaMap, alphaAttack);
     }
 
     @Test

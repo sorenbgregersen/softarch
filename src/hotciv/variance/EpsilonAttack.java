@@ -12,29 +12,32 @@ import hotciv.standard.Utility;
 // Det er dog nok i TestEpsilon
 
 public class EpsilonAttack implements AttackStrategy {
-    private DieStrategy die;
+    private DieStrategy die1, die2;
 
-    public EpsilonAttack (DieStrategy die){
-        this.die = die;
+
+    public EpsilonAttack (DieStrategy die1, DieStrategy die2){
+        this.die1 = die1;
+        this.die2 = die2;
     }
 
-    @Override
     public boolean battleResult(GameImpl game, Position attacker, Position defender) {
+
         int attackerFriendlySupport = Utility.getFriendlySupport(game, attacker, game.getUnitAt(attacker).getOwner());
         int attackerTerrainFactor = Utility.getTerrainFactor(game, attacker);
 
         int defenderFriendlySupport = Utility.getFriendlySupport(game, defender, game.getUnitAt(defender).getOwner());
         int defenderTerrainFactor = Utility.getTerrainFactor(game, defender);
 
-        int d1 = new die.roll();
-        int d2 = new die.roll();
 
-        int attackStrength = game.getUnitAt(attacker).getAttackingStrength() * attackerFriendlySupport
-                 * attackerTerrainFactor;
+        int attackStrength = game.getUnitAt(attacker).getAttackingStrength() + attackerFriendlySupport
+                 +  attackerTerrainFactor;
 
-        int defenderStrength = game.getUnitAt(defender).getAttackingStrength() * defenderFriendlySupport
-                * defenderTerrainFactor;
+        int defenderStrength = game.getUnitAt(defender).getAttackingStrength() +  defenderFriendlySupport
+                +  defenderTerrainFactor;
 
-        return attackStrength * d1 > defenderStrength * d2;
+        System.out.print("d1: " + attackStrength + " " + die1.roll() + "\n");
+        System.out.print("d2: " + defenderStrength + " " + die2.roll() + "\n");
+        return attackStrength * die1.roll() > defenderStrength * die2.roll();
+
     }
 }

@@ -3,6 +3,7 @@ package hotciv.standard;
 import com.sun.javafx.font.t2k.T2KFactory;
 import com.sun.org.apache.xalan.internal.xsltc.dom.UnionIterator;
 import hotciv.framework.*;
+import hotciv.variance.EpsilonAttack;
 import hotciv.variance.GammaUnitActions;
 import hotciv.variance.LinearAging;
 import hotciv.variance.ProgressiveAgeing;
@@ -53,6 +54,10 @@ public class GameImpl implements Game {
     UnitActionStrategy unitActionStrategy;
     WorldMapStrategy mapStrategy;
     AttackStrategy attackStrategy;
+    public int wins;
+    public HashMap<Player, Integer> WinningMap;
+    public int redWinningCount;
+    public int blueWinningCount;
 
     public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
                     UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy, AttackStrategy _attackStrategy){
@@ -97,7 +102,7 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return winningStrategy.detemineWinningPlayer(city1, city2);
+        return winningStrategy.detemineWinningPlayer(this);
     }
 
     public int getAge() {
@@ -118,9 +123,18 @@ public class GameImpl implements Game {
         }
         else if (unitMap.containsKey(to)) {
             if (!u_from.getOwner().equals(u_to.getOwner())) {
-                unitMap.remove(to);
-                unitMap.put(to, u_from);
-                return true;
+                if (attackStrategy.battleResult(this, from, to)) {
+                    unitMap.remove(to);
+                    unitMap.put(to, u_from);
+
+                    if(getPlayerInTurn() == Player.RED){
+                       redWinningCount +=1;
+                    }
+                    if(getPlayerInTurn() == Player.BLUE){
+                        blueWinningCount +=1;
+                    }
+                    return true;
+                }
             }
             return false;
 
@@ -210,6 +224,8 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performUnitAction(this, p);
     }
+
 }
+
 
 

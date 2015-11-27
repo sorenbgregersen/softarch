@@ -17,7 +17,7 @@ public class TestBetaCiv {
     @Before
     public void setUp() {
         progressiveAgeing = new ProgressiveAgeing();
-        game = new GameImpl(progressiveAgeing, new ConquerBasedWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
+        game = new GameImpl(progressiveAgeing, new BetaWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
     }
 
     @Test

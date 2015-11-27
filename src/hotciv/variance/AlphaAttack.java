@@ -7,6 +7,6 @@ import hotciv.standard.GameImpl;
 public class AlphaAttack implements AttackStrategy{
     @Override
     public boolean battleResult(GameImpl game, Position attacker, Position defender) {
-        return false;
+        return true;
     }
 }

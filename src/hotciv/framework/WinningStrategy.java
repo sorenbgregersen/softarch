@@ -1,7 +1,9 @@
 package hotciv.framework;
 
 
+import hotciv.standard.GameImpl;
+
 public interface WinningStrategy {
-    Player detemineWinningPlayer (City city1, City city2);
+    Player detemineWinningPlayer (GameImpl game);
     // maybe in the future add a list of cities instead of just two
 }

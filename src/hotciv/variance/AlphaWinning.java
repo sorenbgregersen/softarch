@@ -4,11 +4,12 @@ package hotciv.variance;
 import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
+import hotciv.standard.GameImpl;
 
-public class TurnBasedWinning implements WinningStrategy {
+public class AlphaWinning implements WinningStrategy {
 
     @Override
-    public Player detemineWinningPlayer(City city1, City city2) {
+    public Player detemineWinningPlayer(GameImpl game) {
         return Player.RED;
     }
 }
