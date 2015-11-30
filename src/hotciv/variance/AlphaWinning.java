@@ -12,4 +12,9 @@ public class AlphaWinning implements WinningStrategy {
     public Player detemineWinningPlayer(GameImpl game) {
         return Player.RED;
     }
+
+    @Override
+    public void incrementWinningCount(Player from) {
+
+    }
 }

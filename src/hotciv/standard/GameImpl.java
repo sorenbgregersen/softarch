@@ -54,10 +54,7 @@ public class GameImpl implements Game {
     UnitActionStrategy unitActionStrategy;
     WorldMapStrategy mapStrategy;
     AttackStrategy attackStrategy;
-    public int wins;
-    public HashMap<Player, Integer> WinningMap;
-    public int redWinningCount;
-    public int blueWinningCount;
+    public int roundCounter;
 
     public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
                     UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy, AttackStrategy _attackStrategy){
@@ -112,27 +109,24 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         UnitImpl u_from = unitMap.get(from);
         UnitImpl u_to = unitMap.get(to);
+        Player attacker = u_from.getOwner();
         boolean tileIsAMountain = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS);
         boolean tileIsAnOcean = getTileAt(to).getTypeString().equals(GameConstants.OCEANS);
 
+            // Units can not move over mountains and oceans
         if (tileIsAMountain || tileIsAnOcean)
             return false;
 
-        else if (u_from.getOwner() != getPlayerInTurn()) {
+            //Unit can not be moved if it belongs to another player
+        else if (attacker != getPlayerInTurn()) {
             return false;
         }
         else if (unitMap.containsKey(to)) {
-            if (!u_from.getOwner().equals(u_to.getOwner())) {
+            if (!attacker.equals(u_to.getOwner())) {
                 if (attackStrategy.battleResult(this, from, to)) {
                     unitMap.remove(to);
                     unitMap.put(to, u_from);
-
-                    if(getPlayerInTurn() == Player.RED){
-                       redWinningCount +=1;
-                    }
-                    if(getPlayerInTurn() == Player.BLUE){
-                        blueWinningCount +=1;
-                    }
+                    winningStrategy.incrementWinningCount(attacker);
                     return true;
                 }
             }
@@ -171,6 +165,7 @@ public class GameImpl implements Game {
         city2.increaseProductionTreasury(6);
         produceUnit(new Position(4, 1));
         worldAge = agingStrategy.calculateWorldAge(worldAge);
+        roundCounter += 1;
     }
 
     public void produceUnit(Position p) {

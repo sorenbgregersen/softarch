@@ -2,43 +2,78 @@
 
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
+import hotciv.framework.Position;
 import hotciv.framework.Unit;
 
-/**
- * Created by S�ren on 05-11-2015.
- */
 public class UnitImpl implements Unit {
     public String type;
     public Player owner;
+<span class="fc" id="L11">    public boolean isFortified = false;</span>
+<span class="fc" id="L12">    public int moveCount = 1;</span>
+<span class="fc" id="L13">    private int defensiveStrength = 0;</span>
+<span class="fc" id="L14">    private int attackStrength = 0;</span>
 
-<span class="fc" id="L14">    public UnitImpl(String _type, Player _owner) {</span>
-<span class="fc" id="L15">        this.type = _type;</span>
-<span class="fc" id="L16">        this.owner = _owner;</span>
-<span class="fc" id="L17">    }</span>
+<span class="fc" id="L16">    public UnitImpl(String _type, Player _owner) {</span>
+<span class="fc" id="L17">        this.type = _type;</span>
+<span class="fc" id="L18">        this.owner = _owner;</span>
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if(_type == GameConstants.ARCHER){</span>
+<span class="fc" id="L21">            defensiveStrength = 3;</span>
+<span class="fc" id="L22">            attackStrength = 2;</span>
+        }
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(_type == GameConstants.LEGION) {</span>
+<span class="fc" id="L26">            defensiveStrength = 2;</span>
+<span class="fc" id="L27">            attackStrength = 4;</span>
+        }
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(_type == GameConstants.SETTLER) {</span>
+<span class="fc" id="L31">            defensiveStrength = 3;</span>
+<span class="fc" id="L32">            attackStrength = 0;</span>
+        }
+<span class="fc" id="L34">    }</span>
 
     @Override
     public String getTypeString() {
-<span class="fc" id="L21">        return type;</span>
+<span class="fc" id="L38">        return type;</span>
     }
 
     @Override
     public Player getOwner() {
-<span class="fc" id="L26">        return owner;</span>
+<span class="fc" id="L43">        return owner;</span>
     }
 
     @Override
     public int getMoveCount() {
-<span class="nc" id="L31">        return 0;</span>
+<span class="fc" id="L48">        return moveCount;</span>
     }
+
+    public void setMoveCount(int move){
+<span class="fc" id="L52">      moveCount = move;</span>
+<span class="fc" id="L53">    }</span>
 
     @Override
     public int getDefensiveStrength() {
-<span class="nc" id="L36">        return 0;</span>
+<span class="fc" id="L57">        return defensiveStrength;</span>
     }
+
+    public void fortify(){
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!isFortified) {</span>
+<span class="fc" id="L63">            setMoveCount(0);</span>
+<span class="fc" id="L64">            defensiveStrength = defensiveStrength*2;</span>
+<span class="fc" id="L65">            isFortified = true;</span>
+        }
+        else{
+<span class="fc" id="L68">            setMoveCount(1);</span>
+<span class="fc" id="L69">            defensiveStrength = defensiveStrength/2;</span>
+<span class="fc" id="L70">            isFortified = false;</span>
+        }
+<span class="fc" id="L72">    }</span>
 
     @Override
     public int getAttackingStrength() {
-<span class="nc" id="L41">        return 0;</span>
+<span class="fc" id="L76">        return attackStrength;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>

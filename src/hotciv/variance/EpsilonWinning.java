@@ -1,22 +1,31 @@
 package hotciv.variance;
 
-import hotciv.framework.City;
-import hotciv.framework.Player;
-import hotciv.framework.WinningStrategy;
+import hotciv.framework.*;
 import hotciv.standard.GameImpl;
 
 public class EpsilonWinning implements WinningStrategy {
+    public int redWinningCount;
+    public int blueWinningCount;
+
+    @Override
+    public void incrementWinningCount(Player attacker) {
+        if (attacker == Player.RED) {
+            redWinningCount += 1;
+        }
+        if (attacker == Player.BLUE) {
+            blueWinningCount += 1;
+        }
+    }
 
     @Override
     public Player detemineWinningPlayer(GameImpl game) {
-
-        if(game.redWinningCount >= 3){
+        if (redWinningCount >= 3){
             return Player.RED;
         }
-        if(game.blueWinningCount >= 3){
+        if (blueWinningCount >= 3){
             return Player.BLUE;
         }
         return null;
         }
-}
+    }
 

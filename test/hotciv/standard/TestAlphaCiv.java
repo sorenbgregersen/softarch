@@ -170,7 +170,7 @@ public class TestAlphaCiv {
 
     @Test
     public void shouldNotMoveOverMountain(){
-        game.moveUnit(new Position(2,1), new Position(2,2));
+        game.moveUnit(new Position(2,0), new Position(2,1));
         assertThat("The unit can not move onto the mountain",
                 game.moveUnit(new Position(2, 1), new Position(2, 2)), is(false));
         assertThat("There is no unit on the mountains",

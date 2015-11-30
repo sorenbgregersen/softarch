@@ -2,6 +2,7 @@ package hotciv.variance;
 
 import hotciv.framework.AttackStrategy;
 import hotciv.framework.DieStrategy;
+import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.standard.DiceImpl;
 import hotciv.standard.GameImpl;
@@ -13,7 +14,9 @@ import hotciv.standard.Utility;
 
 public class EpsilonAttack implements AttackStrategy {
     private DieStrategy die1, die2;
-
+    Player winner;
+    public int redWinningCount;
+    public int blueWinningCount;
 
     public EpsilonAttack (DieStrategy die1, DieStrategy die2){
         this.die1 = die1;
@@ -21,7 +24,6 @@ public class EpsilonAttack implements AttackStrategy {
     }
 
     public boolean battleResult(GameImpl game, Position attacker, Position defender) {
-
         int attackerFriendlySupport = Utility.getFriendlySupport(game, attacker, game.getUnitAt(attacker).getOwner());
         int attackerTerrainFactor = Utility.getTerrainFactor(game, attacker);
 
@@ -35,9 +37,17 @@ public class EpsilonAttack implements AttackStrategy {
         int defenderStrength = game.getUnitAt(defender).getAttackingStrength() +  defenderFriendlySupport
                 +  defenderTerrainFactor;
 
-        System.out.print("d1: " + attackStrength + " " + die1.roll() + "\n");
-        System.out.print("d2: " + defenderStrength + " " + die2.roll() + "\n");
-        return attackStrength * die1.roll() > defenderStrength * die2.roll();
+        //System.out.print("Attack: " + attackStrength + " + " + die1.roll() + "\n");
+        //System.out.print("Defense: " + defenderStrength + " + " + die2.roll() + "\n");
 
+        winner = game.getUnitAt(attacker).getOwner();
+        if(winner == Player.RED) {
+            redWinningCount += 1;
+        }
+        if(winner == Player.BLUE) {
+            blueWinningCount += 1;
+        }
+        return attackStrength * die1.roll() > defenderStrength * die2.roll();
     }
+
 }

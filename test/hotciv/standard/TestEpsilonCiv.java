@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class TestEpsilonCiv {
     private GameImpl game;
     private EpsilonAttack epsilonAttack;
+    private EpsilonWinning epsilonWinning;
     private int dieValue1;
     private int dieValue2;
     private DieStrategy ds1;
@@ -17,10 +18,6 @@ public class TestEpsilonCiv {
     /**
      * Fixture for epsilonciv testing.
      */
-    @Before
-    public void setUp() {
-
-    }
 
     @Test
     public void archerShouldWinIfHeRollsSix(){
@@ -29,7 +26,7 @@ public class TestEpsilonCiv {
         ds1 = new DiceStub(dieValue1);
         ds2 = new DiceStub(dieValue2);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
-        game = new GameImpl(new LinearAging(), new AlphaWinning(),
+        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
 
         Position attacker = new Position(2, 0);
@@ -46,14 +43,40 @@ public class TestEpsilonCiv {
         ds1 = new DiceStub(dieValue1);
         ds2 = new DiceStub(dieValue2);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
-        game = new GameImpl(new LinearAging(), new AlphaWinning(),
+        epsilonWinning = new EpsilonWinning();
+        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
         epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.RED);
         epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.RED);
         epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.RED);
         assertThat("red wins after 3 won battles",
-                game.getWinner(), is(Player.RED));
+                epsilonWinning.detemineWinningPlayer(game), is(Player.RED));
+    }
+
+    @Test
+    public void shouldReturnBlueAsWinnerWhenBlueHasWon3Times(){
+        dieValue1 = 6;
+        dieValue2 = 1;
+        ds1 = new DiceStub(dieValue1);
+        ds2 = new DiceStub(dieValue2);
+        epsilonAttack = new EpsilonAttack(ds1, ds2);
+        epsilonWinning = new EpsilonWinning();
+        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
+                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        Position attacker = new Position(3, 2);
+        Position defender = new Position(2, 0);
+        epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.BLUE);
+        epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.BLUE);
+        epsilonAttack.battleResult(game, attacker, defender);
+        epsilonWinning.incrementWinningCount(Player.BLUE);
+        assertThat("blue wins after 3 won battles",
+                epsilonWinning.detemineWinningPlayer(game), is(Player.BLUE));
     }
 }

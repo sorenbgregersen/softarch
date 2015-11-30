@@ -25,4 +25,9 @@ public class BetaWinning implements WinningStrategy {
         }
         return res;
     }
+
+    @Override
+    public void incrementWinningCount(Player from) {
+
+    }
 }

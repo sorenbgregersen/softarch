@@ -1,8 +1,8 @@
 Testsuite: hotciv.standard.TestDeltaCiv
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,015 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,023 sec
 
-Testcase: shouldReturnPlainAt1_2 took 0,001 sec
-Testcase: shouldReturnForestAt12_8 took 0 sec
+Testcase: shouldReturnPlainAt1_2 took 0,004 sec
+Testcase: shouldReturnForestAt12_8 took 0,001 sec
 Testcase: shouldReturnHillsAt14_6 took 0 sec
 Testcase: shouldReturnOceanAt6_8 took 0,001 sec
-Testcase: shouldReturnMountainAt0_5 took 0 sec
+Testcase: shouldReturnMountainAt0_5 took 0,001 sec
