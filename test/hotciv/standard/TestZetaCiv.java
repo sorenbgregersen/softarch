@@ -46,7 +46,7 @@ public class TestZetaCiv {
     //to win 3 attacks.
     //This test is a unit test
     @Test
-    public void shouldReturnRedAsWinnerWhenRedHasWon3Times(){
+    public void shouldReturnBlueAsWinnerWhenRedHasWon3TimesAfter20Rounds(){
         ds1 = new DiceStub(dieValue1 = 6);
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
@@ -61,12 +61,30 @@ public class TestZetaCiv {
         for(int i = 0 ; i < 23 ; i++){
             game.endOfRound();
         }
-        //c
+        //makes three successful attacks
         for(int i = 0 ; i < 4 ; i++) {
-            epsilonAttack.battleResult(game, attacker, defender);
-            zetaWinning.incrementWinningCount(Player.RED);
+           // epsilonAttack.battleResult(game, attacker, defender);
+            zetaWinning.incrementWinningCount(Player.BLUE);
         }
-        assertThat("red wins after 3 won battles",
-                zetaWinning.detemineWinningPlayer(game), is(Player.RED));
+        assertThat("Blue wins after 3 won battles",
+                zetaWinning.detemineWinningPlayer(game), is(Player.BLUE));
+    }
+    @Test
+    public void ShouldNotWinOnAttacksBefore20Rounds(){
+        ds1 = new DiceStub(dieValue1 = 6);
+        ds2 = new DiceStub(dieValue2 = 1);
+        epsilonAttack = new EpsilonAttack(ds1, ds2);
+        zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
+                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        Position attacker = new Position(2, 0);
+        Position defender = new Position(3, 2);
+
+        //makes three successful attacks
+        for(int i = 0 ; i < 4 ; i++) {
+            //epsilonAttack.battleResult(game, attacker, defender); // necessary?
+            zetaWinning.incrementWinningCount(Player.RED);
+        assertThat("There is no winner due to attacks before 20 rounds", zetaWinning.detemineWinningPlayer(game), is(nullValue()));
+         }
     }
 }
