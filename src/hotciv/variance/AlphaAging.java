@@ -5,7 +5,7 @@ import hotciv.framework.WorldAgingStrategy;
 /**
  * Created by Alex on 18-11-2015.
  */
-public class LinearAging implements WorldAgingStrategy{
+public class AlphaAging implements WorldAgingStrategy{
 
 
     @Override

@@ -9,7 +9,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class TestGammaCiv {
     private GameImpl game;
-    private LinearAging linearAging;
+    private AlphaAging linearAging;
     private AlphaWinning turnBasedWinning;
     private GammaUnitActions gammaUnitActions;
     private AlphaMap alphaMap;

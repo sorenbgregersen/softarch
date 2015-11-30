@@ -3,7 +3,7 @@ package hotciv.variance;
 import hotciv.framework.WorldAgingStrategy;
 
 
-public class ProgressiveAgeing implements WorldAgingStrategy {
+public class BetaAging implements WorldAgingStrategy {
     @Override
     public int calculateWorldAge(int worldAge) {
         int res = worldAge;

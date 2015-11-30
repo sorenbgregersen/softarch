@@ -3,8 +3,8 @@ package hotciv.standard;
 import hotciv.framework.DieStrategy;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
-import hotciv.framework.WinningStrategy;
 import hotciv.variance.*;
+import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -21,12 +21,17 @@ public class TestZetaCiv {
     private DieStrategy ds1;
     private DieStrategy ds2;
 
+    @Before
+    public void setUp(){
+        game = new GameImpl(new AlphaAging(), new ZetaWinning(betaWinning, epsilonWinning),
+                new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
+    }
 
     //This test tests that the BetaWinning strategy is used, when
     //the game lasts less than 20 rounds
+    //This test is a unit test
     @Test
     public void shouldReturnRedAsWinnerIfGameLastsLessThan20Rounds() {
-        game = new GameImpl(new LinearAging(), new ZetaWinning(betaWinning, epsilonWinning), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
         game.moveUnit(new Position(4,3), new Position(4,2));
         game.endOfTurn();
         game.endOfTurn();
@@ -35,28 +40,32 @@ public class TestZetaCiv {
                 game.getWinner(), is(Player.RED));
     }
 
+    //This test tests that EpsilonWinning is used, when the
+    //game lasts more than 20 rounds. In order to check, that
+    //red wins, 23 rounds are played since it takes red 3 rounds
+    //to win 3 attacks.
+    //This test is a unit test
     @Test
     public void shouldReturnRedAsWinnerWhenRedHasWon3Times(){
-        dieValue1 = 6;
-        dieValue2 = 1;
-        ds1 = new DiceStub(dieValue1);
-        ds2 = new DiceStub(dieValue2);
+        ds1 = new DiceStub(dieValue1 = 6);
+        ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
-        for(int i = 0 ; i < 20 ; i++){
+
+        //calling endRound in game 23 times in order to increase roundCounter
+        //to over 20 and reach the EpsilonCiv strategy.
+        for(int i = 0 ; i < 23 ; i++){
             game.endOfRound();
         }
-        System.out.println(game.roundCounter);
-        epsilonAttack.battleResult(game, attacker, defender);
-        zetaWinning.incrementWinningCount(Player.RED);
-        epsilonAttack.battleResult(game, attacker, defender);
-        zetaWinning.incrementWinningCount(Player.RED);
-        epsilonAttack.battleResult(game, attacker, defender);
-        zetaWinning.incrementWinningCount(Player.RED);
+        //c
+        for(int i = 0 ; i < 4 ; i++) {
+            epsilonAttack.battleResult(game, attacker, defender);
+            zetaWinning.incrementWinningCount(Player.RED);
+        }
         assertThat("red wins after 3 won battles",
                 zetaWinning.detemineWinningPlayer(game), is(Player.RED));
     }

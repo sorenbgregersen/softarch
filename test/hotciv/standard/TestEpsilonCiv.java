@@ -26,7 +26,7 @@ public class TestEpsilonCiv {
         ds1 = new DiceStub(dieValue1);
         ds2 = new DiceStub(dieValue2);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
-        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
 
         Position attacker = new Position(2, 0);
@@ -44,7 +44,7 @@ public class TestEpsilonCiv {
         ds2 = new DiceStub(dieValue2);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         epsilonWinning = new EpsilonWinning();
-        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
@@ -66,7 +66,7 @@ public class TestEpsilonCiv {
         ds2 = new DiceStub(dieValue2);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         epsilonWinning = new EpsilonWinning();
-        game = new GameImpl(new LinearAging(), new EpsilonWinning(),
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(3, 2);
         Position defender = new Position(2, 0);

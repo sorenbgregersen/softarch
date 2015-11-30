@@ -1,0 +1,18 @@
+Testsuite: hotciv.standard.TestZetaCiv
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0,011 sec
+------------- Standard Output ---------------
+20
+------------- ---------------- ---------------
+
+Testcase: shouldReturnRedAsWinnerWhenRedHasWon3Times took 0,004 sec
+	FAILED
+red wins after 3 won battles
+Expected: is <RED>
+     but: was null
+junit.framework.AssertionFailedError: red wins after 3 won battles
+Expected: is <RED>
+     but: was null
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at hotciv.standard.TestZetaCiv.shouldReturnRedAsWinnerWhenRedHasWon3Times(TestZetaCiv.java:60)
+
+Testcase: shouldReturnRedAsWinnerIfGameLastsLessThan20Rounds took 0,001 sec
