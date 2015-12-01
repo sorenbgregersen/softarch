@@ -1,8 +1,9 @@
 package hotciv.variance;
 
 import hotciv.framework.Player;
+import hotciv.framework.WinnerStrategyContext;
 import hotciv.framework.WinningStrategy;
-import hotciv.standard.GameImpl;
+
 
 public class ZetaWinning implements WinningStrategy {
     private WinningStrategy
@@ -15,18 +16,28 @@ public class ZetaWinning implements WinningStrategy {
     }
 
     @Override
-    public void incrementWinningCount(Player from) {
-        epsilonWinning.incrementWinningCount(from);
+    public void updateWinningCount(Player attacker) {
+        /*
+        if(roundCounter <= 20){
+            betaWinning.updateWinningCount(attacker);
+        }
+        else {
+            epsilonWinning.updateWinningCount(attacker);
+        }
+        */
     }
 
     @Override
-    public Player detemineWinningPlayer(GameImpl game) {
-        if(game.roundCounter <= 20){
-            currentState = betaWinning;
-        }
-        if(game.roundCounter > 20){
+    public Player detemineWinningPlayer(WinnerStrategyContext context) {
+            if(context.getRoundCount() <= 20){
+                currentState = betaWinning;
+            }
+
+        if(context.getRoundCount() > 20){
             currentState = epsilonWinning;
         }
-        return currentState.detemineWinningPlayer(game);
+        return currentState.detemineWinningPlayer(context);
+
     }
+
 }

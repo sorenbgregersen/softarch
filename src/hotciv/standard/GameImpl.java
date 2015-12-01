@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -49,8 +50,10 @@ public class GameImpl implements Game {
     AttackStrategy attackStrategy;
     public int roundCounter;
 
-    public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
-                    UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy, AttackStrategy _attackStrategy){
+
+    public GameImpl(WorldAgingStrategy agingStrategy, WinningStrategy winningStrategy,
+                    UnitActionStrategy unitActionStrategy, WorldMapStrategy mapStrategy,
+                    AttackStrategy attackStrategy){
 
         cityMap = new HashMap<>();
         city1 = new CityImpl(Player.RED);
@@ -66,11 +69,11 @@ public class GameImpl implements Game {
         unitMap.put(new Position(2,0), redArcher);
         unitMap.put(new Position(3,2), blueLegion);
         unitMap.put(new Position(4,3), redSettler);
-        agingStrategy = _agingStrategy;
-        winningStrategy = _winningStrategy;
-        unitActionStrategy = _unitActionStrategy;
-        mapStrategy = _mapStrategy;
-        attackStrategy = _attackStrategy;
+        this.agingStrategy = agingStrategy;
+        this.winningStrategy = winningStrategy;
+        this.unitActionStrategy = unitActionStrategy;
+        this.mapStrategy = mapStrategy;
+        this.attackStrategy = attackStrategy;
     }
 
     public Tile getTileAt(Position p) {
@@ -92,7 +95,21 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return winningStrategy.detemineWinningPlayer(this);
+        return winningStrategy.detemineWinningPlayer(new WinnerStrategyContext(){
+           public int getAge(){
+               return GameImpl.this.getAge();
+           }
+            public Collection<Player> getOwners(){
+                ArrayList<Player> result = new ArrayList<Player>();
+                result.add(city1.getOwner());
+                result.add(city2.getOwner());
+                return result;
+            }
+
+            public int getRoundCount() {
+                return GameImpl.this.roundCounter;
+            }
+        });
     }
 
     public int getAge() {
@@ -119,7 +136,7 @@ public class GameImpl implements Game {
                 if (attackStrategy.battleResult(this, from, to)) {
                     unitMap.remove(to);
                     unitMap.put(to, u_from);
-                    winningStrategy.incrementWinningCount(attacker);
+                    winningStrategy.updateWinningCount(attacker);
                     return true;
                 }
             }
@@ -212,7 +229,6 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performUnitAction(this, p);
     }
-
 }
 
 

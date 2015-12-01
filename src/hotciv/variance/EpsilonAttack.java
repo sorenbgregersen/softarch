@@ -39,14 +39,16 @@ public class EpsilonAttack implements AttackStrategy {
 
         //System.out.print("Attack: " + attackStrength + " + " + die1.roll() + "\n");
         //System.out.print("Defense: " + defenderStrength + " + " + die2.roll() + "\n");
-
+        /*
         winner = game.getUnitAt(attacker).getOwner();
+
         if(winner == Player.RED) {
             redWinningCount += 1;
         }
         if(winner == Player.BLUE) {
             blueWinningCount += 1;
         }
+        */
         return attackStrength * die1.roll() > defenderStrength * die2.roll();
     }
 

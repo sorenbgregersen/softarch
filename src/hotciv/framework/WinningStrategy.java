@@ -4,9 +4,9 @@ package hotciv.framework;
 import hotciv.standard.GameImpl;
 
 public interface WinningStrategy {
-    void incrementWinningCount(Player from);
+    void updateWinningCount(Player attacker);
 
-    Player detemineWinningPlayer (GameImpl game);
+    Player detemineWinningPlayer(WinnerStrategyContext context);
 
     // maybe in the future add a list of cities instead of just two
 }

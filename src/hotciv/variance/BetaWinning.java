@@ -1,33 +1,40 @@
 package hotciv.variance;
 
 
-import com.sun.org.apache.bcel.internal.generic.RET;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import hotciv.framework.City;
 import hotciv.framework.Player;
+import hotciv.framework.WinnerStrategyContext;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
 
 public class BetaWinning implements WinningStrategy {
 
+    private int redWinningCount;
+    private int blueWinningCount;
+
     @Override
-    public Player detemineWinningPlayer(GameImpl game) {
-        Player res = null;
-        for (CityImpl c : game.cityMap.values()) {
-            if (res == null) {
-                res = c.getOwner();
-            } else {
-                if (!c.getOwner().equals(res)) {
-                    return null;
-                }
-            }
+    public void updateWinningCount(Player attacker) {
+        if (attacker == Player.RED) {
+            redWinningCount = 0;
         }
-        return res;
+        if (attacker == Player.BLUE) {
+            blueWinningCount = 0;
+        }
     }
 
     @Override
-    public void incrementWinningCount(Player from) {
+    public Player detemineWinningPlayer(WinnerStrategyContext context) {
+        Player res = null;
+        for (Player owner : context.getOwners()) {
+            if (res == null) {
+                res = owner;
+            }
 
+            if (owner != res){
+                    return null;
+                }
+            }
+
+        return res;
     }
 }

@@ -49,11 +49,11 @@ public class TestEpsilonCiv {
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
+        epsilonWinning.updateWinningCount(game);
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
+        epsilonWinning.updateWinningCount(game);
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
+        epsilonWinning.updateWinningCount(game);
         assertThat("red wins after 3 won battles",
                 epsilonWinning.detemineWinningPlayer(game), is(Player.RED));
     }
@@ -70,12 +70,13 @@ public class TestEpsilonCiv {
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(3, 2);
         Position defender = new Position(2, 0);
+        game.endOfTurn();
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
+        epsilonWinning.updateWinningCount(game);
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
+        epsilonWinning.updateWinningCount(game);
         epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
+        epsilonWinning.updateWinningCount(game);
         assertThat("blue wins after 3 won battles",
                 epsilonWinning.detemineWinningPlayer(game), is(Player.BLUE));
     }
