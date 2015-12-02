@@ -48,14 +48,12 @@ public class TestEpsilonCiv {
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.RED);
+        for(int i = 0 ; i < 4 ; i++) {
+            epsilonAttack.battleResult(game, attacker, defender);
+            epsilonWinning.incrementWinningCount(game);
+        }
         assertThat("red wins after 3 won battles",
-                epsilonWinning.detemineWinningPlayer(game), is(Player.RED));
+                epsilonWinning.determineWinningPlayer(game), is(Player.RED));
     }
 
     @Test
@@ -70,13 +68,12 @@ public class TestEpsilonCiv {
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(3, 2);
         Position defender = new Position(2, 0);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
-        epsilonAttack.battleResult(game, attacker, defender);
-        epsilonWinning.incrementWinningCount(Player.BLUE);
+        game.endOfTurn();
+        for(int i = 0 ; i < 4 ; i++) {
+            epsilonAttack.battleResult(game, attacker, defender);
+            epsilonWinning.incrementWinningCount(game);
+        }
         assertThat("blue wins after 3 won battles",
-                epsilonWinning.detemineWinningPlayer(game), is(Player.BLUE));
+                epsilonWinning.determineWinningPlayer(game), is(Player.BLUE));
     }
 }

@@ -8,17 +8,17 @@ public class EpsilonWinning implements WinningStrategy {
     public int blueWinningCount;
 
     @Override
-    public void incrementWinningCount(Player attacker) {
-        if (attacker == Player.RED) {
-            redWinningCount += 1;
+    public void incrementWinningCount(GameImpl game) {
+        if (game.playerInTurn == Player.RED) {
+            redWinningCount++;
         }
-        if (attacker == Player.BLUE) {
-            blueWinningCount += 1;
+        if (game.getPlayerInTurn() == Player.BLUE) {
+            blueWinningCount++;
         }
     }
 
     @Override
-    public Player detemineWinningPlayer(GameImpl game) {
+    public Player determineWinningPlayer(GameImpl game) {
         if (redWinningCount >= 3){
             return Player.RED;
         }

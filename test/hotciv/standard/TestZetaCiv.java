@@ -9,7 +9,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-
 public class TestZetaCiv {
     private GameImpl game;
     private EpsilonAttack epsilonAttack;
@@ -46,7 +45,7 @@ public class TestZetaCiv {
     //to win 3 attacks.
     //This test is a unit test
     @Test
-    public void shouldReturnBlueAsWinnerWhenRedHasWon3TimesAfter20Rounds(){
+    public void shouldReturnBlueAsWinnerWhenBlueHasWon3TimesAfter20Rounds(){
         ds1 = new DiceStub(dieValue1 = 6);
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
@@ -58,16 +57,19 @@ public class TestZetaCiv {
 
         //calling endRound in game 23 times in order to increase roundCounter
         //to over 20 and reach the EpsilonCiv strategy.
-        for(int i = 0 ; i < 23 ; i++){
+        /*for(int i = 0 ; i < 23 ; i++){
             game.endOfRound();
         }
+        */
+        game.roundCounter = 23;
+        assertThat("the game has altered 23 rounds", game.roundCounter, is(23));
+        game.endOfTurn();
         //makes three successful attacks
         for(int i = 0 ; i < 4 ; i++) {
-           // epsilonAttack.battleResult(game, attacker, defender);
-            zetaWinning.incrementWinningCount(Player.BLUE);
+            zetaWinning.incrementWinningCount(game);
         }
         assertThat("Blue wins after 3 won battles",
-                zetaWinning.detemineWinningPlayer(game), is(Player.BLUE));
+                zetaWinning.determineWinningPlayer(game), is(Player.BLUE));
     }
     @Test
     public void ShouldNotWinOnAttacksBefore20Rounds(){
@@ -79,12 +81,33 @@ public class TestZetaCiv {
                 new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
-
+        System.out.println("Round counter: " + game.roundCounter);
         //makes three successful attacks
         for(int i = 0 ; i < 4 ; i++) {
-            //epsilonAttack.battleResult(game, attacker, defender); // necessary?
-            zetaWinning.incrementWinningCount(Player.RED);
-        assertThat("There is no winner due to attacks before 20 rounds", zetaWinning.detemineWinningPlayer(game), is(nullValue()));
-         }
+            zetaWinning.incrementWinningCount(game);
+            assertThat("There is no winner due to attacks before 20 rounds", zetaWinning.determineWinningPlayer(game), is(nullValue()));
+        }
+    }
+    @Test
+    public void attacksMadeBefore20RoundsShouldNotInfluenceWinning() {
+        ds1 = new DiceStub(dieValue1 = 6);
+        ds2 = new DiceStub(dieValue2 = 1);
+        epsilonAttack = new EpsilonAttack(ds1, ds2);
+        zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
+        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
+                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        Position attacker = new Position(2, 0);
+        Position defender = new Position(3, 2);
+
+        //makes three successful attacks
+        for (int i = 0; i < 4; i++) {
+            zetaWinning.incrementWinningCount(game);
+        }
+        //epsilonAttack.battleResult(game, attacker, defender); // necessary?
+        for(int i = 0 ; i < 23 ; i++){
+            game.endOfRound();
+        }
+        zetaWinning.incrementWinningCount(game);
+        assertThat("There is no winner due to attacks before 20 rounds", zetaWinning.determineWinningPlayer(game), is(nullValue()));
     }
 }

@@ -49,8 +49,8 @@ public class GameImpl implements Game {
     AttackStrategy attackStrategy;
     public int roundCounter;
 
-    public GameImpl(WorldAgingStrategy _agingStrategy, WinningStrategy _winningStrategy,
-                    UnitActionStrategy _unitActionStrategy, WorldMapStrategy _mapStrategy, AttackStrategy _attackStrategy){
+    public GameImpl(WorldAgingStrategy agingStrategy, WinningStrategy winningStrategy,
+                    UnitActionStrategy unitActionStrategy, WorldMapStrategy mapStrategy, AttackStrategy attackStrategy){
 
         cityMap = new HashMap<>();
         city1 = new CityImpl(Player.RED);
@@ -66,11 +66,11 @@ public class GameImpl implements Game {
         unitMap.put(new Position(2,0), redArcher);
         unitMap.put(new Position(3,2), blueLegion);
         unitMap.put(new Position(4,3), redSettler);
-        agingStrategy = _agingStrategy;
-        winningStrategy = _winningStrategy;
-        unitActionStrategy = _unitActionStrategy;
-        mapStrategy = _mapStrategy;
-        attackStrategy = _attackStrategy;
+        this.agingStrategy = agingStrategy;
+        this.winningStrategy = winningStrategy;
+        this.unitActionStrategy = unitActionStrategy;
+        this.mapStrategy = mapStrategy;
+        this.attackStrategy = attackStrategy;
     }
 
     public Tile getTileAt(Position p) {
@@ -92,7 +92,7 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return winningStrategy.detemineWinningPlayer(this);
+        return winningStrategy.determineWinningPlayer(this);
     }
 
     public int getAge() {
@@ -119,7 +119,7 @@ public class GameImpl implements Game {
                 if (attackStrategy.battleResult(this, from, to)) {
                     unitMap.remove(to);
                     unitMap.put(to, u_from);
-                    winningStrategy.incrementWinningCount(attacker);
+                    winningStrategy.incrementWinningCount(this);
                     return true;
                 }
             }
@@ -201,6 +201,10 @@ public class GameImpl implements Game {
                 unitMap.put(pos, newUnit);
             }
         }
+    }
+
+    public int getRoundCounter(){
+        return roundCounter;
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {

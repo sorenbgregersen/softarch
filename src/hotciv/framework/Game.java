@@ -1,7 +1,5 @@
 package hotciv.framework;
 
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
-
 /** Game is the central interface allowing a client to access and
  * modify the state of a HotCiv game.  
 
@@ -30,7 +28,7 @@ import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 */
 
-public interface Game {
+public interface Game extends GameContext {
   // === Accessor methods ===================================
   
   /** return a specific tile.
