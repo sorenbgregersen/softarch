@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variance.factories.AbstractFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +50,7 @@ public class GameImpl implements Game {
     AttackStrategy attackStrategy;
     public int roundCounter;
 
-    public GameImpl(WorldAgingStrategy agingStrategy, WinningStrategy winningStrategy,
-                    UnitActionStrategy unitActionStrategy, WorldMapStrategy mapStrategy, AttackStrategy attackStrategy){
+    public GameImpl(AbstractFactory factory){
 
         cityMap = new HashMap<>();
         city1 = new CityImpl(Player.RED);
@@ -66,12 +66,14 @@ public class GameImpl implements Game {
         unitMap.put(new Position(2,0), redArcher);
         unitMap.put(new Position(3,2), blueLegion);
         unitMap.put(new Position(4,3), redSettler);
-        this.agingStrategy = agingStrategy;
-        this.winningStrategy = winningStrategy;
-        this.unitActionStrategy = unitActionStrategy;
-        this.mapStrategy = mapStrategy;
-        this.attackStrategy = attackStrategy;
+        this.agingStrategy = factory.createAgingStrategy();
+        this.winningStrategy = factory.createWinningStrategy();
+        this.unitActionStrategy = factory.createUnitActionStrategy();
+        this.mapStrategy = factory.createMapStrategy();
+        this.attackStrategy = factory.createAttackStrategy();
     }
+
+
 
     public Tile getTileAt(Position p) {
         HashMap<Position, TileImpl> worldMap = mapStrategy.createWorldMap();

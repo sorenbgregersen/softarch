@@ -1,9 +1,9 @@
 package hotciv.standard;
 
-import hotciv.framework.DieStrategy;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 import hotciv.variance.*;
+import hotciv.variance.factories.AbstractFactory;
+import hotciv.variance.factories.ZetaCivFactory;
 import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -22,8 +22,7 @@ public class TestZetaCiv {
 
     @Before
     public void setUp(){
-        game = new GameImpl(new AlphaAging(), new ZetaWinning(betaWinning, epsilonWinning),
-                new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
+        game = new GameImpl(new ZetaCivFactory(betaWinning, epsilonWinning));
     }
 
     //This test tests that the BetaWinning strategy is used, when
@@ -50,17 +49,26 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
-                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        game = new GameImpl(new AbstractFactory() {
+            public WorldAgingStrategy createAgingStrategy() {
+                return null;
+            }
+            public WinningStrategy createWinningStrategy() {
+                return zetaWinning;
+            }
+            public UnitActionStrategy createUnitActionStrategy() {
+                return null;
+            }
+            public WorldMapStrategy createMapStrategy() {
+                return null;
+            }
+            public AttackStrategy createAttackStrategy() {
+                return epsilonAttack;
+            }
+        });
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
 
-        //calling endRound in game 23 times in order to increase roundCounter
-        //to over 20 and reach the EpsilonCiv strategy.
-        /*for(int i = 0 ; i < 23 ; i++){
-            game.endOfRound();
-        }
-        */
         game.roundCounter = 23;
         assertThat("the game has altered 23 rounds", game.roundCounter, is(23));
         game.endOfTurn();
@@ -77,8 +85,23 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
-                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        game = new GameImpl(new AbstractFactory() {
+            public WorldAgingStrategy createAgingStrategy() {
+                return null;
+            }
+            public WinningStrategy createWinningStrategy() {
+                return zetaWinning;
+            }
+            public UnitActionStrategy createUnitActionStrategy() {
+                return null;
+            }
+            public WorldMapStrategy createMapStrategy() {
+                return null;
+            }
+            public AttackStrategy createAttackStrategy() {
+                return epsilonAttack;
+            }
+        });
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
         System.out.println("Round counter: " + game.roundCounter);
@@ -94,8 +117,23 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AlphaAging(), new EpsilonWinning(),
-                new AlphaUnitActions(), new AlphaMap(), epsilonAttack);
+        game = new GameImpl(new AbstractFactory() {
+            public WorldAgingStrategy createAgingStrategy() {
+                return null;
+            }
+            public WinningStrategy createWinningStrategy() {
+                return zetaWinning;
+            }
+            public UnitActionStrategy createUnitActionStrategy() {
+                return null;
+            }
+            public WorldMapStrategy createMapStrategy() {
+                return null;
+            }
+            public AttackStrategy createAttackStrategy() {
+                return epsilonAttack;
+            }
+        });
         Position attacker = new Position(2, 0);
         Position defender = new Position(3, 2);
 

@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
 import hotciv.variance.*;
+import hotciv.variance.factories.DeltaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -36,8 +37,7 @@ public class TestDeltaCiv {
                 "..ooohhoo.......",
                 ".....ooooooooo..",
         };
-        game = new GameImpl(new AlphaAging(), new AlphaWinning(), new AlphaUnitActions(), new DeltaMap(layout), new AlphaAttack());
-
+        game = new GameImpl(new DeltaCivFactory(layout));
     }
 
     /*

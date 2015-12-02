@@ -3,6 +3,8 @@ package hotciv.standard;
 import hotciv.framework.AttackStrategy;
 import hotciv.framework.Position;
 import hotciv.variance.*;
+import hotciv.variance.factories.EpsilonCivFactory;
+import hotciv.variance.factories.GammaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -20,7 +22,7 @@ public class TestGammaCiv {
         gammaUnitActions = new GammaUnitActions();
         alphaMap = new AlphaMap();
         alphaAttack = new AlphaAttack();
-        game = new GameImpl(linearAging, turnBasedWinning, gammaUnitActions, alphaMap, alphaAttack);
+        game = new GameImpl(new GammaCivFactory());
     }
 
     @Test

@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import hotciv.variance.*;
+import hotciv.variance.factories.BetaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -17,7 +18,7 @@ public class TestBetaCiv {
     @Before
     public void setUp() {
         progressiveAgeing = new BetaAging();
-        game = new GameImpl(progressiveAgeing, new BetaWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
+        game = new GameImpl(new BetaCivFactory());
     }
 
     @Test

@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import hotciv.variance.*;
+import hotciv.variance.factories.AlphaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -43,7 +44,7 @@ public class TestAlphaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new AlphaAging(), new AlphaWinning(), new AlphaUnitActions(), new AlphaMap(), new AlphaAttack());
+        game = new GameImpl(new AlphaCivFactory());
     }
 
     @Test
