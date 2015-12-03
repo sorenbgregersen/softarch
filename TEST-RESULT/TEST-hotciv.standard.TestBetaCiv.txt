@@ -1,10 +1,10 @@
 Testsuite: hotciv.standard.TestBetaCiv
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,021 sec
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,02 sec
 
-Testcase: shouldAge5YearsBetween1900And1970AD took 0,001 sec
-Testcase: shouldAge100YearsBetween4000And100BC took 0,001 sec
+Testcase: shouldAge5YearsBetween1900And1970AD took 0,004 sec
+Testcase: shouldAge100YearsBetween4000And100BC took 0 sec
 Testcase: aroundTheBirthOfChrist took 0 sec
 Testcase: shouldAge25YearsBetween1750And1900AD took 0 sec
-Testcase: shouldWinWhenOnePlayerConquersAllCities took 0 sec
-Testcase: shouldAge50YearsBetween50And1750AD took 0,001 sec
+Testcase: shouldWinWhenOnePlayerConquersAllCities took 0,001 sec
+Testcase: shouldAge50YearsBetween50And1750AD took 0 sec
 Testcase: shouldAge1YearsAfter1970AD took 0 sec

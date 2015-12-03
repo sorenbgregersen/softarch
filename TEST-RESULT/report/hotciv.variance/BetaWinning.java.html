@@ -4,26 +4,32 @@
 import com.sun.org.apache.bcel.internal.generic.RET;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import hotciv.framework.City;
+import hotciv.framework.GameContext;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
 
-<span class="fc" id="L12">public class BetaWinning implements WinningStrategy {</span>
+<span class="fc" id="L13">public class BetaWinning implements WinningStrategy {</span>
 
     @Override
-    public Player detemineWinningPlayer(GameImpl game) {
-<span class="fc" id="L16">        Player res = null;</span>
-<span class="fc bfc" id="L17" title="All 2 branches covered.">        for (CityImpl c : game.cityMap.values()) {</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">            if (res == null) {</span>
-<span class="fc" id="L19">                res = c.getOwner();</span>
+    public Player determineWinningPlayer(GameImpl game) {
+<span class="fc" id="L17">        Player res = null;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (CityImpl c : game.cityMap.values()) {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            if (res == null) {</span>
+<span class="fc" id="L20">                res = c.getOwner();</span>
             } else {
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">                if (!c.getOwner().equals(res)) {</span>
-<span class="nc" id="L22">                    return null;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">                if (!c.getOwner().equals(res)) {</span>
+<span class="fc" id="L23">                    return null;</span>
                 }
             }
-<span class="fc" id="L25">        }</span>
-<span class="fc" id="L26">        return res;</span>
+<span class="fc" id="L26">        }</span>
+<span class="fc" id="L27">        return res;</span>
     }
+
+    @Override
+    public void incrementWinningCount(GameImpl game) {
+
+<span class="fc" id="L33">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>

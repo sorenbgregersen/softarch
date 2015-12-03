@@ -172,6 +172,7 @@ public class GameImpl implements Game {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(archerCost);
         }
+        /*
         if (getCityAt(p).getProduction() == GameConstants.LEGION && getCityAt(p).getProductionTreasury() >= legionCost) {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(legionCost);
@@ -180,6 +181,7 @@ public class GameImpl implements Game {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(settlerCost);
         }
+        */
     }
 
     public void placeUnit(Position p) {

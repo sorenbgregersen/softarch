@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.variance.*;
 import hotciv.variance.factories.AbstractFactory;
+import hotciv.variance.factories.StubFactory;
 import hotciv.variance.factories.ZetaCivFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,26 +50,7 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AbstractFactory() {
-            public WorldAgingStrategy createAgingStrategy() {
-                return null;
-            }
-            public WinningStrategy createWinningStrategy() {
-                return zetaWinning;
-            }
-            public UnitActionStrategy createUnitActionStrategy() {
-                return null;
-            }
-            public WorldMapStrategy createMapStrategy() {
-                return null;
-            }
-            public AttackStrategy createAttackStrategy() {
-                return epsilonAttack;
-            }
-        });
-        Position attacker = new Position(2, 0);
-        Position defender = new Position(3, 2);
-
+        game = new GameImpl(new StubFactory(epsilonAttack, zetaWinning));
         game.roundCounter = 23;
         assertThat("the game has altered 23 rounds", game.roundCounter, is(23));
         game.endOfTurn();
@@ -85,26 +67,7 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AbstractFactory() {
-            public WorldAgingStrategy createAgingStrategy() {
-                return null;
-            }
-            public WinningStrategy createWinningStrategy() {
-                return zetaWinning;
-            }
-            public UnitActionStrategy createUnitActionStrategy() {
-                return null;
-            }
-            public WorldMapStrategy createMapStrategy() {
-                return null;
-            }
-            public AttackStrategy createAttackStrategy() {
-                return epsilonAttack;
-            }
-        });
-        Position attacker = new Position(2, 0);
-        Position defender = new Position(3, 2);
-        System.out.println("Round counter: " + game.roundCounter);
+        game = new GameImpl(new StubFactory(epsilonAttack, zetaWinning));
         //makes three successful attacks
         for(int i = 0 ; i < 4 ; i++) {
             zetaWinning.incrementWinningCount(game);
@@ -117,25 +80,7 @@ public class TestZetaCiv {
         ds2 = new DiceStub(dieValue2 = 1);
         epsilonAttack = new EpsilonAttack(ds1, ds2);
         zetaWinning = new ZetaWinning(betaWinning, epsilonWinning);
-        game = new GameImpl(new AbstractFactory() {
-            public WorldAgingStrategy createAgingStrategy() {
-                return null;
-            }
-            public WinningStrategy createWinningStrategy() {
-                return zetaWinning;
-            }
-            public UnitActionStrategy createUnitActionStrategy() {
-                return null;
-            }
-            public WorldMapStrategy createMapStrategy() {
-                return null;
-            }
-            public AttackStrategy createAttackStrategy() {
-                return epsilonAttack;
-            }
-        });
-        Position attacker = new Position(2, 0);
-        Position defender = new Position(3, 2);
+        game = new GameImpl(new StubFactory(epsilonAttack, zetaWinning));
 
         //makes three successful attacks
         for (int i = 0; i < 4; i++) {

@@ -7,10 +7,17 @@ import hotciv.framework.WinningStrategy;
 import hotciv.standard.GameImpl;
 
 <span class="fc" id="L9">public class AlphaWinning implements WinningStrategy {</span>
+<span class="fc" id="L10">    private int winningAge = -3000;</span>
+    @Override
+    public Player determineWinningPlayer(GameImpl game) {
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        if(game.getAge() &gt;= winningAge){</span>
+<span class="fc" id="L14">            return Player.RED;</span>
+<span class="nc" id="L15">        } else return null;</span>
+    }
 
     @Override
-    public Player detemineWinningPlayer(GameImpl game) {
-<span class="fc" id="L13">        return Player.RED;</span>
-    }
+    public void incrementWinningCount(GameImpl game) {
+
+<span class="fc" id="L21">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>
