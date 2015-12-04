@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variance.ThetaCiv;
 import hotciv.variance.factories.AbstractFactory;
 
 import java.util.ArrayList;
@@ -73,8 +74,6 @@ public class GameImpl implements Game {
         this.attackStrategy = factory.createAttackStrategy();
     }
 
-
-
     public Tile getTileAt(Position p) {
         HashMap<Position, TileImpl> worldMap = mapStrategy.createWorldMap();
         return worldMap.get(p);
@@ -89,7 +88,6 @@ public class GameImpl implements Game {
     }
 
     public Player getPlayerInTurn() {
-
         return playerInTurn;
     }
 
@@ -141,7 +139,6 @@ public class GameImpl implements Game {
             unitMap.put(to, u_from);
             unitMap.remove(from);
         }
-
         return true;
     }
 
@@ -167,6 +164,7 @@ public class GameImpl implements Game {
         int archerCost = 10;
         int legionCost = 15;
         int settlerCost = 30;
+        int chariotCost = 20;
 
         if (getCityAt(p).getProduction() == GameConstants.ARCHER && getCityAt(p).getProductionTreasury() >= archerCost ) {
             placeUnit(p);
@@ -182,6 +180,10 @@ public class GameImpl implements Game {
             getCityAt(p).decreaseProductionTreasury(settlerCost);
         }
         */
+        if (getCityAt(p).getProduction() == ThetaCiv.CHARIOT && getCityAt(p).getProductionTreasury() >= chariotCost ) {
+            placeUnit(p);
+            getCityAt(p).decreaseProductionTreasury(archerCost);
+        }
     }
 
     public void placeUnit(Position p) {

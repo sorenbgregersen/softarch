@@ -1,9 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.AttackStrategy;
 import hotciv.framework.Position;
-import hotciv.variance.*;
-import hotciv.variance.factories.EpsilonCivFactory;
 import hotciv.variance.factories.GammaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -11,23 +8,16 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class TestGammaCiv {
     private GameImpl game;
-    private AlphaAging linearAging;
-    private AlphaWinning turnBasedWinning;
-    private GammaUnitActions gammaUnitActions;
-    private AlphaMap alphaMap;
-    private AttackStrategy alphaAttack;
 
     @Before
     public void setUp() {
-        gammaUnitActions = new GammaUnitActions();
-        alphaMap = new AlphaMap();
-        alphaAttack = new AlphaAttack();
         game = new GameImpl(new GammaCivFactory());
     }
 
     @Test
     public void shouldPerformSettlerAction() {
         Position p = new Position(4,3);
+        System.out.println(game.getUnitAt(p).getTypeString());
         game.performUnitActionAt(p);
         assertThat("when settler performs action, it disappears",
                 game.getUnitAt(p), is(nullValue()));
@@ -39,14 +29,14 @@ public class TestGammaCiv {
     public void shouldPerformArcherAction(){
         Position p = new Position(2,0);
         game.performUnitActionAt(p);
-        assertThat("When Archer performs action, it cannot movet",
+        assertThat("When Archer performs action, it cannot move",
                 game.getUnitAt(p).getMoveCount(), is(0));
         assertThat("when Archer perfoms action, it," ,
                 game.getUnitAt(p).getDefensiveStrength(), is(6));
     }
 
     @Test
-    public void shouldreverseArcherAction(){
+    public void shouldReverseArcherAction(){
         Position p = new Position(2,0);
         game.performUnitActionAt(p);
         game.performUnitActionAt(p);
@@ -54,5 +44,15 @@ public class TestGammaCiv {
                 game.getUnitAt(p).getMoveCount(), is(1));
         assertThat("When perform Action is called the action reverses",
                 game.getUnitAt(p).getDefensiveStrength(), is(3));
+    }
+
+    @Test
+    public void legionShouldNotPerformAnyAction(){
+        Position p = new Position(3 ,2);
+        game.performUnitActionAt(p);
+        assertThat("When legion performs action, nothing happens",
+                game.getUnitAt(p).getMoveCount(), is(1));
+        assertThat("When legion performs action, nothing happens",
+                game.getUnitAt(p).getDefensiveStrength(), is(2));
     }
 }

@@ -4,6 +4,7 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.framework.Unit;
+import hotciv.variance.ThetaCiv;
 
 public class UnitImpl implements Unit {
     public String type;
@@ -13,23 +14,28 @@ public class UnitImpl implements Unit {
     private int defensiveStrength = 0;
     private int attackStrength = 0;
 
-    public UnitImpl(String _type, Player _owner) {
-        this.type = _type;
-        this.owner = _owner;
+    public UnitImpl(String type, Player owner) {
+        this.type = type;
+        this.owner = owner;
 
-        if(_type == GameConstants.ARCHER){
+        if(type == GameConstants.ARCHER){
             defensiveStrength = 3;
             attackStrength = 2;
         }
 
-        if(_type == GameConstants.LEGION) {
+        if(type == GameConstants.LEGION) {
             defensiveStrength = 2;
             attackStrength = 4;
         }
 
-        if(_type == GameConstants.SETTLER) {
+        if(type == GameConstants.SETTLER) {
             defensiveStrength = 3;
             attackStrength = 0;
+        }
+
+        if(type == ThetaCiv.CHARIOT) {
+            defensiveStrength = 1;
+            attackStrength = 3;
         }
     }
 
@@ -59,15 +65,16 @@ public class UnitImpl implements Unit {
 
     public void fortify(){
 
-        if (!isFortified) {
-            setMoveCount(0);
-            defensiveStrength = defensiveStrength*2;
-            isFortified = true;
-        }
-        else{
-            setMoveCount(1);
-            defensiveStrength = defensiveStrength/2;
-            isFortified = false;
+        if(type == GameConstants.ARCHER || type == ThetaCiv.CHARIOT) {
+            if (!isFortified) {
+                setMoveCount(0);
+                defensiveStrength = defensiveStrength * 2;
+                isFortified = true;
+            } else {
+                setMoveCount(1);
+                defensiveStrength = defensiveStrength / 2;
+                isFortified = false;
+            }
         }
     }
 
