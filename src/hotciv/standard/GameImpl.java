@@ -35,13 +35,13 @@ import java.util.HashMap;
  */
 
 public class GameImpl implements Game {
-    public CityImpl city1;
-    public CityImpl city2;
-    public Player playerInTurn;
-    public UnitImpl redArcher;
-    public UnitImpl blueLegion;
-    public UnitImpl redSettler;
-    public int worldAge;
+    private CityImpl city1;
+    private CityImpl city2;
+    private Player playerInTurn;
+    private UnitImpl redArcher;
+    private UnitImpl blueLegion;
+    private UnitImpl redSettler;
+    private int worldAge;
     public HashMap<Position, UnitImpl> unitMap;
     public HashMap<Position, CityImpl> cityMap;
     WorldAgingStrategy agingStrategy;
@@ -170,7 +170,7 @@ public class GameImpl implements Game {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(archerCost);
         }
-        /*
+
         if (getCityAt(p).getProduction() == GameConstants.LEGION && getCityAt(p).getProductionTreasury() >= legionCost) {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(legionCost);
@@ -179,10 +179,10 @@ public class GameImpl implements Game {
             placeUnit(p);
             getCityAt(p).decreaseProductionTreasury(settlerCost);
         }
-        */
+
         if (getCityAt(p).getProduction() == ThetaCiv.CHARIOT && getCityAt(p).getProductionTreasury() >= chariotCost ) {
             placeUnit(p);
-            getCityAt(p).decreaseProductionTreasury(archerCost);
+            getCityAt(p).decreaseProductionTreasury(chariotCost);
         }
     }
 

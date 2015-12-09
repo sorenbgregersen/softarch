@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GameImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=2;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HotCiv Test</a> &gt; <a href="index.source.html" class="el_package">hotciv.standard</a> &gt; <span class="el_source">GameImpl.java</span></div><h1>GameImpl.java</h1><pre class="source lang-java linenums">package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variance.ThetaCiv;
 import hotciv.variance.factories.AbstractFactory;
 
 import java.util.ArrayList;
@@ -50,176 +51,177 @@ public class GameImpl implements Game {
     AttackStrategy attackStrategy;
     public int roundCounter;
 
-<span class="fc" id="L53">    public GameImpl(AbstractFactory factory){</span>
+<span class="fc" id="L54">    public GameImpl(AbstractFactory factory){</span>
 
-<span class="fc" id="L55">        cityMap = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L56">        city1 = new CityImpl(Player.RED);</span>
-<span class="fc" id="L57">        city2 = new CityImpl(Player.BLUE);</span>
-<span class="fc" id="L58">        cityMap.put(new Position(1, 1), city1);</span>
-<span class="fc" id="L59">        cityMap.put(new Position(4, 1), city2);</span>
-<span class="fc" id="L60">        playerInTurn = Player.RED;</span>
-<span class="fc" id="L61">        redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);</span>
-<span class="fc" id="L62">        blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);</span>
-<span class="fc" id="L63">        redSettler = new UnitImpl(GameConstants.SETTLER, Player.RED);</span>
-<span class="fc" id="L64">        worldAge = -4000;</span>
-<span class="fc" id="L65">        unitMap = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L66">        unitMap.put(new Position(2,0), redArcher);</span>
-<span class="fc" id="L67">        unitMap.put(new Position(3,2), blueLegion);</span>
-<span class="fc" id="L68">        unitMap.put(new Position(4,3), redSettler);</span>
-<span class="fc" id="L69">        this.agingStrategy = factory.createAgingStrategy();</span>
-<span class="fc" id="L70">        this.winningStrategy = factory.createWinningStrategy();</span>
-<span class="fc" id="L71">        this.unitActionStrategy = factory.createUnitActionStrategy();</span>
-<span class="fc" id="L72">        this.mapStrategy = factory.createMapStrategy();</span>
-<span class="fc" id="L73">        this.attackStrategy = factory.createAttackStrategy();</span>
-<span class="fc" id="L74">    }</span>
-
-
+<span class="fc" id="L56">        cityMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L57">        city1 = new CityImpl(Player.RED);</span>
+<span class="fc" id="L58">        city2 = new CityImpl(Player.BLUE);</span>
+<span class="fc" id="L59">        cityMap.put(new Position(1, 1), city1);</span>
+<span class="fc" id="L60">        cityMap.put(new Position(4, 1), city2);</span>
+<span class="fc" id="L61">        playerInTurn = Player.RED;</span>
+<span class="fc" id="L62">        redArcher = new UnitImpl(GameConstants.ARCHER, Player.RED);</span>
+<span class="fc" id="L63">        blueLegion = new UnitImpl(GameConstants.LEGION, Player.BLUE);</span>
+<span class="fc" id="L64">        redSettler = new UnitImpl(GameConstants.SETTLER, Player.RED);</span>
+<span class="fc" id="L65">        worldAge = -4000;</span>
+<span class="fc" id="L66">        unitMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L67">        unitMap.put(new Position(2,0), redArcher);</span>
+<span class="fc" id="L68">        unitMap.put(new Position(3,2), blueLegion);</span>
+<span class="fc" id="L69">        unitMap.put(new Position(4,3), redSettler);</span>
+<span class="fc" id="L70">        this.agingStrategy = factory.createAgingStrategy();</span>
+<span class="fc" id="L71">        this.winningStrategy = factory.createWinningStrategy();</span>
+<span class="fc" id="L72">        this.unitActionStrategy = factory.createUnitActionStrategy();</span>
+<span class="fc" id="L73">        this.mapStrategy = factory.createMapStrategy();</span>
+<span class="fc" id="L74">        this.attackStrategy = factory.createAttackStrategy();</span>
+<span class="fc" id="L75">    }</span>
 
     public Tile getTileAt(Position p) {
-<span class="fc" id="L79">        HashMap&lt;Position, TileImpl&gt; worldMap = mapStrategy.createWorldMap();</span>
-<span class="fc" id="L80">        return worldMap.get(p);</span>
+<span class="fc" id="L78">        HashMap&lt;Position, TileImpl&gt; worldMap = mapStrategy.createWorldMap();</span>
+<span class="fc" id="L79">        return worldMap.get(p);</span>
     }
 
     public UnitImpl getUnitAt(Position p) {
-<span class="fc" id="L84">        return unitMap.get(p);</span>
+<span class="fc" id="L83">        return unitMap.get(p);</span>
     }
 
     public CityImpl getCityAt(Position p) {
-<span class="fc" id="L88">        return cityMap.get(p);</span>
+<span class="fc" id="L87">        return cityMap.get(p);</span>
     }
 
     public Player getPlayerInTurn() {
-
-<span class="fc" id="L93">        return playerInTurn;</span>
+<span class="fc" id="L91">        return playerInTurn;</span>
     }
 
     public Player getWinner() {
-<span class="fc" id="L97">        return winningStrategy.determineWinningPlayer(this);</span>
+<span class="fc" id="L95">        return winningStrategy.determineWinningPlayer(this);</span>
     }
 
     public int getAge() {
-<span class="fc" id="L101">        return worldAge;</span>
+<span class="fc" id="L99">        return worldAge;</span>
     }
 
     public boolean moveUnit(Position from, Position to) {
-<span class="fc" id="L105">        UnitImpl u_from = unitMap.get(from);</span>
-<span class="fc" id="L106">        UnitImpl u_to = unitMap.get(to);</span>
-<span class="fc" id="L107">        Player attacker = u_from.getOwner();</span>
-<span class="fc" id="L108">        boolean tileIsAMountain = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS);</span>
-<span class="fc" id="L109">        boolean tileIsAnOcean = getTileAt(to).getTypeString().equals(GameConstants.OCEANS);</span>
+<span class="fc" id="L103">        UnitImpl u_from = unitMap.get(from);</span>
+<span class="fc" id="L104">        UnitImpl u_to = unitMap.get(to);</span>
+<span class="fc" id="L105">        Player attacker = u_from.getOwner();</span>
+<span class="fc" id="L106">        boolean tileIsAMountain = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS);</span>
+<span class="fc" id="L107">        boolean tileIsAnOcean = getTileAt(to).getTypeString().equals(GameConstants.OCEANS);</span>
 
             // Units can not move over mountains and oceans
-<span class="pc bpc" id="L112" title="1 of 4 branches missed.">        if (tileIsAMountain || tileIsAnOcean)</span>
-<span class="fc" id="L113">            return false;</span>
+<span class="pc bpc" id="L110" title="1 of 4 branches missed.">        if (tileIsAMountain || tileIsAnOcean)</span>
+<span class="fc" id="L111">            return false;</span>
 
             //Unit can not be moved if it belongs to another player
-<span class="fc bfc" id="L116" title="All 2 branches covered.">        else if (attacker != getPlayerInTurn()) {</span>
-<span class="fc" id="L117">            return false;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        else if (attacker != getPlayerInTurn()) {</span>
+<span class="fc" id="L115">            return false;</span>
         }
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        else if (unitMap.containsKey(to)) {</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">            if (!attacker.equals(u_to.getOwner())) {</span>
-<span class="pc bpc" id="L121" title="1 of 2 branches missed.">                if (attackStrategy.battleResult(this, from, to)) {</span>
-<span class="fc" id="L122">                    unitMap.remove(to);</span>
-<span class="fc" id="L123">                    unitMap.put(to, u_from);</span>
-<span class="fc" id="L124">                    winningStrategy.incrementWinningCount(this);</span>
-<span class="fc" id="L125">                    return true;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        else if (unitMap.containsKey(to)) {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (!attacker.equals(u_to.getOwner())) {</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">                if (attackStrategy.battleResult(this, from, to)) {</span>
+<span class="fc" id="L120">                    unitMap.remove(to);</span>
+<span class="fc" id="L121">                    unitMap.put(to, u_from);</span>
+<span class="fc" id="L122">                    winningStrategy.incrementWinningCount(this);</span>
+<span class="fc" id="L123">                    return true;</span>
                 }
             }
-<span class="fc" id="L128">            return false;</span>
+<span class="fc" id="L126">            return false;</span>
 
-<span class="fc bfc" id="L130" title="All 2 branches covered.">        } else if (getCityAt(to) != null){</span>
-<span class="pc bpc" id="L131" title="1 of 2 branches missed.">            if(getCityAt(to).getOwner() != u_from.getOwner()){</span>
-<span class="fc" id="L132">                getCityAt(to).changeOwnership(u_from.getOwner());</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        } else if (getCityAt(to) != null){</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">            if(getCityAt(to).getOwner() != u_from.getOwner()){</span>
+<span class="fc" id="L130">                getCityAt(to).changeOwnership(u_from.getOwner());</span>
             }
 
-<span class="fc bfc" id="L135" title="All 2 branches covered.">        } else if ((Math.abs(from.getColumn() - to.getColumn()) &gt; getUnitAt(from).getMoveCount()) ||</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">                (Math.abs(from.getRow() - to.getRow()) &gt; getUnitAt(from).getMoveCount())) {</span>
-<span class="fc" id="L137">            return false;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        } else if ((Math.abs(from.getColumn() - to.getColumn()) &gt; getUnitAt(from).getMoveCount()) ||</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">                (Math.abs(from.getRow() - to.getRow()) &gt; getUnitAt(from).getMoveCount())) {</span>
+<span class="fc" id="L135">            return false;</span>
         }
 
         else {
-<span class="fc" id="L141">            unitMap.put(to, u_from);</span>
-<span class="fc" id="L142">            unitMap.remove(from);</span>
+<span class="fc" id="L139">            unitMap.put(to, u_from);</span>
+<span class="fc" id="L140">            unitMap.remove(from);</span>
         }
-
-<span class="fc" id="L145">        return true;</span>
+<span class="fc" id="L142">        return true;</span>
     }
 
     public void endOfTurn() {
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (playerInTurn == Player.RED) {</span>
-<span class="fc" id="L150">            playerInTurn = Player.BLUE;</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        } else if (playerInTurn == Player.BLUE) {</span>
-<span class="fc" id="L152">            playerInTurn = Player.RED;</span>
-<span class="fc" id="L153">            endOfRound();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (playerInTurn == Player.RED) {</span>
+<span class="fc" id="L147">            playerInTurn = Player.BLUE;</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        } else if (playerInTurn == Player.BLUE) {</span>
+<span class="fc" id="L149">            playerInTurn = Player.RED;</span>
+<span class="fc" id="L150">            endOfRound();</span>
         }
-<span class="fc" id="L155">    }</span>
+<span class="fc" id="L152">    }</span>
 
     public void endOfRound(){
-<span class="fc" id="L158">        city1.increaseProductionTreasury(6);</span>
-<span class="fc" id="L159">        produceUnit(new Position(1, 1));</span>
-<span class="fc" id="L160">        city2.increaseProductionTreasury(6);</span>
-<span class="fc" id="L161">        produceUnit(new Position(4, 1));</span>
-<span class="fc" id="L162">        worldAge = agingStrategy.calculateWorldAge(worldAge);</span>
-<span class="fc" id="L163">        roundCounter += 1;</span>
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L155">        city1.increaseProductionTreasury(6);</span>
+<span class="fc" id="L156">        produceUnit(new Position(1, 1));</span>
+<span class="fc" id="L157">        city2.increaseProductionTreasury(6);</span>
+<span class="fc" id="L158">        produceUnit(new Position(4, 1));</span>
+<span class="fc" id="L159">        worldAge = agingStrategy.calculateWorldAge(worldAge);</span>
+<span class="fc" id="L160">        roundCounter += 1;</span>
+<span class="fc" id="L161">    }</span>
 
     public void produceUnit(Position p) {
-<span class="fc" id="L167">        int archerCost = 10;</span>
-<span class="fc" id="L168">        int legionCost = 15;</span>
-<span class="fc" id="L169">        int settlerCost = 30;</span>
+<span class="fc" id="L164">        int archerCost = 10;</span>
+<span class="fc" id="L165">        int legionCost = 15;</span>
+<span class="fc" id="L166">        int settlerCost = 30;</span>
+<span class="fc" id="L167">        int chariotCost = 20;</span>
 
-<span class="fc bfc" id="L171" title="All 4 branches covered.">        if (getCityAt(p).getProduction() == GameConstants.ARCHER &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= archerCost ) {</span>
-<span class="fc" id="L172">            placeUnit(p);</span>
-<span class="fc" id="L173">            getCityAt(p).decreaseProductionTreasury(archerCost);</span>
+<span class="fc bfc" id="L169" title="All 4 branches covered.">        if (getCityAt(p).getProduction() == GameConstants.ARCHER &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= archerCost ) {</span>
+<span class="fc" id="L170">            placeUnit(p);</span>
+<span class="fc" id="L171">            getCityAt(p).decreaseProductionTreasury(archerCost);</span>
         }
-        /*
-        if (getCityAt(p).getProduction() == GameConstants.LEGION &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= legionCost) {
-            placeUnit(p);
-            getCityAt(p).decreaseProductionTreasury(legionCost);
+
+<span class="pc bpc" id="L174" title="3 of 4 branches missed.">        if (getCityAt(p).getProduction() == GameConstants.LEGION &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= legionCost) {</span>
+<span class="nc" id="L175">            placeUnit(p);</span>
+<span class="nc" id="L176">            getCityAt(p).decreaseProductionTreasury(legionCost);</span>
         }
-        if (getCityAt(p).getProduction() == GameConstants.SETTLER &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= settlerCost) {
-            placeUnit(p);
-            getCityAt(p).decreaseProductionTreasury(settlerCost);
+<span class="pc bpc" id="L178" title="3 of 4 branches missed.">        if (getCityAt(p).getProduction() == GameConstants.SETTLER &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= settlerCost) {</span>
+<span class="nc" id="L179">            placeUnit(p);</span>
+<span class="nc" id="L180">            getCityAt(p).decreaseProductionTreasury(settlerCost);</span>
         }
-        */
-<span class="fc" id="L185">    }</span>
+        
+<span class="pc bpc" id="L183" title="3 of 4 branches missed.">        if (getCityAt(p).getProduction() == ThetaCiv.CHARIOT &amp;&amp; getCityAt(p).getProductionTreasury() &gt;= chariotCost ) {</span>
+<span class="nc" id="L184">            placeUnit(p);</span>
+<span class="nc" id="L185">            getCityAt(p).decreaseProductionTreasury(chariotCost);</span>
+        }
+<span class="fc" id="L187">    }</span>
 
     public void placeUnit(Position p) {
-<span class="fc" id="L188">        UnitImpl newUnit = new UnitImpl(getCityAt(p).getProduction(), getCityAt(p).getOwner());</span>
-<span class="fc" id="L189">        ArrayList&lt;Position&gt; nearbyTiles = new ArrayList();</span>
-<span class="fc" id="L190">        int x = p.getRow();</span>
-<span class="fc" id="L191">        int y = p.getColumn();</span>
+<span class="fc" id="L190">        UnitImpl newUnit = new UnitImpl(getCityAt(p).getProduction(), getCityAt(p).getOwner());</span>
+<span class="fc" id="L191">        ArrayList&lt;Position&gt; nearbyTiles = new ArrayList();</span>
+<span class="fc" id="L192">        int x = p.getRow();</span>
+<span class="fc" id="L193">        int y = p.getColumn();</span>
 
-<span class="fc" id="L193">        nearbyTiles.add(new Position(x, y));</span>
-<span class="fc" id="L194">        nearbyTiles.add(new Position(x-1, y));</span>
-<span class="fc" id="L195">        nearbyTiles.add(new Position(x-1, y+1));</span>
-<span class="fc" id="L196">        nearbyTiles.add(new Position(x, y+1));</span>
-<span class="fc" id="L197">        nearbyTiles.add(new Position(x+1, y+1));</span>
-<span class="fc" id="L198">        nearbyTiles.add(new Position(x+1, y));</span>
-<span class="fc" id="L199">        nearbyTiles.add(new Position(x+1, y-1));</span>
-<span class="fc" id="L200">        nearbyTiles.add(new Position(x, y-1));</span>
-<span class="fc" id="L201">        nearbyTiles.add(new Position(x-1, y-1));</span>
+<span class="fc" id="L195">        nearbyTiles.add(new Position(x, y));</span>
+<span class="fc" id="L196">        nearbyTiles.add(new Position(x-1, y));</span>
+<span class="fc" id="L197">        nearbyTiles.add(new Position(x-1, y+1));</span>
+<span class="fc" id="L198">        nearbyTiles.add(new Position(x, y+1));</span>
+<span class="fc" id="L199">        nearbyTiles.add(new Position(x+1, y+1));</span>
+<span class="fc" id="L200">        nearbyTiles.add(new Position(x+1, y));</span>
+<span class="fc" id="L201">        nearbyTiles.add(new Position(x+1, y-1));</span>
+<span class="fc" id="L202">        nearbyTiles.add(new Position(x, y-1));</span>
+<span class="fc" id="L203">        nearbyTiles.add(new Position(x-1, y-1));</span>
 
-<span class="fc bfc" id="L203" title="All 2 branches covered.">        for(Position pos : nearbyTiles){</span>
-<span class="fc bfc" id="L204" title="All 2 branches covered.">            if (!unitMap.containsKey(pos)){</span>
-<span class="fc" id="L205">                unitMap.put(pos, newUnit);</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        for(Position pos : nearbyTiles){</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (!unitMap.containsKey(pos)){</span>
+<span class="fc" id="L207">                unitMap.put(pos, newUnit);</span>
             }
-<span class="fc" id="L207">        }</span>
-<span class="fc" id="L208">    }</span>
+<span class="fc" id="L209">        }</span>
+<span class="fc" id="L210">    }</span>
 
     public int getRoundCounter(){
-<span class="fc" id="L211">        return roundCounter;</span>
+<span class="fc" id="L213">        return roundCounter;</span>
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-<span class="nc" id="L215">    }</span>
+<span class="nc" id="L217">    }</span>
 
     public void changeProductionInCityAt(Position p, String unitType) {
-<span class="nc" id="L218">    }</span>
+<span class="nc" id="L220">    }</span>
 
     public void performUnitActionAt(Position p) {
-<span class="fc" id="L221">        unitActionStrategy.performUnitAction(this, p);</span>
-<span class="fc" id="L222">    }</span>
+<span class="fc" id="L223">        unitActionStrategy.performUnitAction(this, p);</span>
+<span class="fc" id="L224">    }</span>
 
 }
 

@@ -17,7 +17,6 @@ public class TestGammaCiv {
     @Test
     public void shouldPerformSettlerAction() {
         Position p = new Position(4,3);
-        System.out.println(game.getUnitAt(p).getTypeString());
         game.performUnitActionAt(p);
         assertThat("when settler performs action, it disappears",
                 game.getUnitAt(p), is(nullValue()));

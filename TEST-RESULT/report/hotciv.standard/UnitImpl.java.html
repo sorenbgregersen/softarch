@@ -4,76 +4,83 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.framework.Unit;
+import hotciv.variance.ThetaCiv;
 
 public class UnitImpl implements Unit {
     public String type;
     public Player owner;
-<span class="fc" id="L11">    public boolean isFortified = false;</span>
-<span class="fc" id="L12">    public int moveCount = 1;</span>
-<span class="fc" id="L13">    private int defensiveStrength = 0;</span>
-<span class="fc" id="L14">    private int attackStrength = 0;</span>
+<span class="fc" id="L12">    public boolean isFortified = false;</span>
+<span class="fc" id="L13">    public int moveCount = 1;</span>
+<span class="fc" id="L14">    private int defensiveStrength = 0;</span>
+<span class="fc" id="L15">    private int attackStrength = 0;</span>
 
-<span class="fc" id="L16">    public UnitImpl(String _type, Player _owner) {</span>
-<span class="fc" id="L17">        this.type = _type;</span>
-<span class="fc" id="L18">        this.owner = _owner;</span>
+<span class="fc" id="L17">    public UnitImpl(String type, Player owner) {</span>
+<span class="fc" id="L18">        this.type = type;</span>
+<span class="fc" id="L19">        this.owner = owner;</span>
 
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if(_type == GameConstants.ARCHER){</span>
-<span class="fc" id="L21">            defensiveStrength = 3;</span>
-<span class="fc" id="L22">            attackStrength = 2;</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if(type == GameConstants.ARCHER){</span>
+<span class="fc" id="L22">            defensiveStrength = 3;</span>
+<span class="fc" id="L23">            attackStrength = 2;</span>
         }
 
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(_type == GameConstants.LEGION) {</span>
-<span class="fc" id="L26">            defensiveStrength = 2;</span>
-<span class="fc" id="L27">            attackStrength = 4;</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(type == GameConstants.LEGION) {</span>
+<span class="fc" id="L27">            defensiveStrength = 2;</span>
+<span class="fc" id="L28">            attackStrength = 4;</span>
         }
 
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(_type == GameConstants.SETTLER) {</span>
-<span class="fc" id="L31">            defensiveStrength = 3;</span>
-<span class="fc" id="L32">            attackStrength = 0;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if(type == GameConstants.SETTLER) {</span>
+<span class="fc" id="L32">            defensiveStrength = 3;</span>
+<span class="fc" id="L33">            attackStrength = 0;</span>
         }
-<span class="fc" id="L34">    }</span>
+
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if(type == ThetaCiv.CHARIOT) {</span>
+<span class="fc" id="L37">            defensiveStrength = 1;</span>
+<span class="fc" id="L38">            attackStrength = 3;</span>
+        }
+<span class="fc" id="L40">    }</span>
 
     @Override
     public String getTypeString() {
-<span class="fc" id="L38">        return type;</span>
+<span class="fc" id="L44">        return type;</span>
     }
 
     @Override
     public Player getOwner() {
-<span class="fc" id="L43">        return owner;</span>
+<span class="fc" id="L49">        return owner;</span>
     }
 
     @Override
     public int getMoveCount() {
-<span class="fc" id="L48">        return moveCount;</span>
+<span class="fc" id="L54">        return moveCount;</span>
     }
 
     public void setMoveCount(int move){
-<span class="fc" id="L52">      moveCount = move;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L58">      moveCount = move;</span>
+<span class="fc" id="L59">    }</span>
 
     @Override
     public int getDefensiveStrength() {
-<span class="fc" id="L57">        return defensiveStrength;</span>
+<span class="fc" id="L63">        return defensiveStrength;</span>
     }
 
     public void fortify(){
 
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!isFortified) {</span>
-<span class="fc" id="L63">            setMoveCount(0);</span>
-<span class="fc" id="L64">            defensiveStrength = defensiveStrength*2;</span>
-<span class="fc" id="L65">            isFortified = true;</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">        if(type == GameConstants.ARCHER || type == ThetaCiv.CHARIOT) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            if (!isFortified) {</span>
+<span class="fc" id="L70">                setMoveCount(0);</span>
+<span class="fc" id="L71">                defensiveStrength = defensiveStrength * 2;</span>
+<span class="fc" id="L72">                isFortified = true;</span>
+            } else {
+<span class="fc" id="L74">                setMoveCount(1);</span>
+<span class="fc" id="L75">                defensiveStrength = defensiveStrength / 2;</span>
+<span class="fc" id="L76">                isFortified = false;</span>
+            }
         }
-        else{
-<span class="fc" id="L68">            setMoveCount(1);</span>
-<span class="fc" id="L69">            defensiveStrength = defensiveStrength/2;</span>
-<span class="fc" id="L70">            isFortified = false;</span>
-        }
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L79">    }</span>
 
     @Override
     public int getAttackingStrength() {
-<span class="fc" id="L76">        return attackStrength;</span>
+<span class="fc" id="L83">        return attackStrength;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>

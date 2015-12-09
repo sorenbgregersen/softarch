@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ZetaWinning.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=2;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HotCiv Test</a> &gt; <a href="index.source.html" class="el_package">hotciv.variance</a> &gt; <span class="el_source">ZetaWinning.java</span></div><h1>ZetaWinning.java</h1><pre class="source lang-java linenums">package hotciv.variance;
 
-import hotciv.framework.GameContext;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.GameImpl;
 
 public class ZetaWinning implements WinningStrategy {
     private WinningStrategy
-            betaWinning, epsilonWinning, currentState;
+            betaWinning, epsilonWinning;
 
-<span class="fc" id="L12">    public ZetaWinning (WinningStrategy betaWinning, WinningStrategy epsilonWinning){</span>
-<span class="fc" id="L13">        this.betaWinning = betaWinning;</span>
-<span class="fc" id="L14">        this.epsilonWinning = epsilonWinning;</span>
-<span class="fc" id="L15">    }</span>
+<span class="fc" id="L11">    public ZetaWinning (WinningStrategy betaWinning, WinningStrategy epsilonWinning){</span>
+<span class="fc" id="L12">        this.betaWinning = betaWinning;</span>
+<span class="fc" id="L13">        this.epsilonWinning = epsilonWinning;</span>
+<span class="fc" id="L14">    }</span>
 
     @Override
     public void incrementWinningCount(GameImpl game) {
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        if(game.getRoundCounter() &lt; 20){</span>
-<span class="fc" id="L20">            betaWinning.incrementWinningCount(game);</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">        } if (game.getRoundCounter() &gt; 20){</span>
-<span class="fc" id="L22">            epsilonWinning.incrementWinningCount(game);</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if(game.getRoundCounter() &lt; 20){</span>
+<span class="fc" id="L19">            betaWinning.incrementWinningCount(game);</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        } if (game.getRoundCounter() &gt; 20){</span>
+<span class="fc" id="L21">            epsilonWinning.incrementWinningCount(game);</span>
         }
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L23">    }</span>
 
     @Override
     public Player determineWinningPlayer(GameImpl game) {
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(game.getRoundCounter() &lt;= 20){</span>
-<span class="fc" id="L29">            return betaWinning.determineWinningPlayer(game);</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if(game.getRoundCounter() &lt;= 20){</span>
+<span class="fc" id="L28">            return betaWinning.determineWinningPlayer(game);</span>
         }
-
-<span class="fc" id="L32">            return epsilonWinning.determineWinningPlayer(game);</span>
-
+<span class="fc" id="L30">            return epsilonWinning.determineWinningPlayer(game);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201506030918</span></div></body></html>

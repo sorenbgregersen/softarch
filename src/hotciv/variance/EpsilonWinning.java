@@ -9,7 +9,7 @@ public class EpsilonWinning implements WinningStrategy {
 
     @Override
     public void incrementWinningCount(GameImpl game) {
-        if (game.playerInTurn == Player.RED) {
+        if (game.getPlayerInTurn() == Player.RED) {
             redWinningCount++;
         }
         if (game.getPlayerInTurn() == Player.BLUE) {

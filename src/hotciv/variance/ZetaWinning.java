@@ -1,13 +1,12 @@
 package hotciv.variance;
 
-import hotciv.framework.GameContext;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.GameImpl;
 
 public class ZetaWinning implements WinningStrategy {
     private WinningStrategy
-            betaWinning, epsilonWinning, currentState;
+            betaWinning, epsilonWinning;
 
     public ZetaWinning (WinningStrategy betaWinning, WinningStrategy epsilonWinning){
         this.betaWinning = betaWinning;
@@ -28,8 +27,6 @@ public class ZetaWinning implements WinningStrategy {
         if(game.getRoundCounter() <= 20){
             return betaWinning.determineWinningPlayer(game);
         }
-
             return epsilonWinning.determineWinningPlayer(game);
-
     }
 }
