@@ -13,7 +13,9 @@ public class LogDecorator extends Decorator {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
+        System.out.println(game.getUnitAt(from)+"moves from"+ from +"to"+to);
         return super.moveUnit(from, to);
+
 
     }
 }

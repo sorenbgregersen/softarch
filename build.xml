@@ -174,5 +174,11 @@ HotCiv build management for dSoftArk
     <echo message="To see report, browse to index.html at ${jacoco.report.dir}."/>
   </target>
 
+  <!-- fractal -->
+  <target name="fractal" depends="build-all">
+    <java classname="hotciv.standard.TestFractalMap">
+      <classpath refid="class-path"/>
+    </java>
+  </target>
 
 </project>

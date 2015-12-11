@@ -1,14 +1,22 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.variance.LogDecorator;
 
 
 // gameimpl decorator that logs all activities
 public class Decorator implements Game {
-    private Game game;
+    public Game game, decoratee;
 
     public Decorator(Game game){
         this.game = game;
+    }
+
+    if (game == decoratee) {
+        decoratee = game;
+        game = new LogDecorator(game);
+    } else {
+        game = decoratee;
     }
 
     @Override
