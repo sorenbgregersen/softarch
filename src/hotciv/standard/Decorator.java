@@ -6,47 +6,48 @@ import hotciv.variance.LogDecorator;
 
 // gameimpl decorator that logs all activities
 public class Decorator implements Game {
-    public Game game, decoratee;
+    protected Game decoratedGame;
 
-    public Decorator(Game game){
-        this.game = game;
+    public Decorator(Game decoratedGame){
+        this.decoratedGame = decoratedGame;
     }
-
+/*
     if (game == decoratee) {
         decoratee = game;
         game = new LogDecorator(game);
     } else {
         game = decoratee;
     }
+*/
 
     @Override
     public Tile getTileAt(Position p) {
-        return game.getTileAt(p);
+        return decoratedGame.getTileAt(p);
     }
 
     @Override
     public Unit getUnitAt(Position p) {
-        return game.getUnitAt(p);
+        return decoratedGame.getUnitAt(p);
     }
 
     @Override
     public City getCityAt(Position p) {
-        return game.getCityAt(p);
+        return decoratedGame.getCityAt(p);
     }
 
     @Override
     public Player getPlayerInTurn() {
-        return game.getPlayerInTurn();
+        return decoratedGame.getPlayerInTurn();
     }
 
     @Override
     public Player getWinner() {
-        return game.getWinner();
+        return decoratedGame.getWinner();
     }
 
     @Override
     public int getAge() {
-        return game.getAge();
+        return decoratedGame.getAge();
     }
 
     @Override
@@ -57,14 +58,14 @@ public class Decorator implements Game {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        System.out.println(game.getPlayerInTurn() + " " + game.getUnitAt(from).getTypeString() +
+        System.out.println(decoratedGame.getPlayerInTurn() + " " + decoratedGame.getUnitAt(from).getTypeString() +
                 " has moved from position " + from + " to position " + to);
-        return game.moveUnit(from, to);
+        return decoratedGame.moveUnit(from, to);
     }
 
     @Override
     public void endOfTurn() {
-        game.endOfTurn();
+        decoratedGame.endOfTurn();
     }
 
     @Override
@@ -78,7 +79,7 @@ public class Decorator implements Game {
 
     @Override
     public void performUnitActionAt(Position p) {
-        game.performUnitActionAt(p);
+        decoratedGame.performUnitActionAt(p);
 
     }
 }

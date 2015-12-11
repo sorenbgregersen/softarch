@@ -6,15 +6,15 @@ import hotciv.standard.Decorator;
 import hotciv.standard.GameImpl;
 
 public class LogDecorator extends Decorator {
-    public LogDecorator(Game game) {
-        super(game);
+    public LogDecorator(Game decoratedGame) {
+        super(decoratedGame);
 
     }
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        System.out.println(game.getUnitAt(from)+"moves from"+ from +"to"+to);
-        return super.moveUnit(from, to);
+        System.out.println(decoratedGame.getUnitAt(from)+"moves from"+ from +"to"+to);
+        return decoratedGame.moveUnit(from, to);
 
 
     }
