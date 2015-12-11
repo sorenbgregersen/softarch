@@ -2,10 +2,12 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class LoggingHotCiv implements Game {
-    private GameImpl game;
 
-    public LoggingHotCiv(GameImpl game){
+// gameimpl decorator that logs all activities
+public class Decorator implements Game {
+    private Game game;
+
+    public Decorator(Game game){
         this.game = game;
     }
 
