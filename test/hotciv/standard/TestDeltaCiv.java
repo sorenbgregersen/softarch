@@ -2,7 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
-import hotciv.variance.*;
 import hotciv.variance.factories.DeltaCivFactory;
 import org.junit.*;
 import static org.junit.Assert.*;

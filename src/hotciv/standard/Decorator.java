@@ -43,7 +43,8 @@ public class Decorator implements Game {
 
     @Override
     public int getRoundCounter() {
-        return game.roundCounter;
+        return 0;
+        //game.roundCounter;
     }
 
     @Override

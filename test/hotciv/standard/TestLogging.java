@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class TestLogging {
 
-
+/*
     private Game game;
 
     @Test
@@ -25,5 +25,5 @@ public class TestLogging {
         assertThat("the red archer has moved to 2_1",
                 game.getUnitAt(new Position(2, 1)), is(sameInstance(unit)));
     }
-
+*/
 }
